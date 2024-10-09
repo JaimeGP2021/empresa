@@ -7,7 +7,9 @@
 </head>
 <body>
     <?php
-    $pdo = new PDO('pgsql:host=localhost;dbname=datos', 'datos', 'datos');
+    require 'auxiliar.php';
+
+    $pdo = conectar();
     $stmt = $pdo->query('SELECT *
                            FROM departamentos
                        ORDER BY codigo');
