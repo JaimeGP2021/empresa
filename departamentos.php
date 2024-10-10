@@ -17,15 +17,15 @@
     //     $codigo = null;
     // }
 
-    $codigo = obtener_get('codigo');
+    $denominacion = obtener_get('denominacion');
     $pdo = conectar();
 
-    if ($codigo == null || $codigo == '') {
+    if ($denominacion == null || $denominacion == '') {
         $where = 'true';
         $execute = [];
     } else {
-        $where = 'codigo = :codigo';
-        $execute = [':codigo' => $codigo];
+        $where = "denominacion ILIKE :denominacion";
+        $execute = [':denominacion' => "%$denominacion%"];
     }
     $stmt = $pdo->prepare(" SELECT *
                                 FROM departamentos
@@ -34,8 +34,8 @@
     $stmt->execute($execute);
     ?>
     <form action="" method="get">
-        <label for="codigo">Código:
-            <input type="text" name="codigo" value="<?= $codigo ?>">
+        <label for="denominacion">Denominación:
+            <input type="text" name="denominacion" value="<?= $denominacion ?>">
         </label>
         <button type="submit">Buscar</button>
     </form>
