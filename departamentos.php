@@ -9,11 +9,39 @@
     <?php
     require 'auxiliar.php';
 
+    // $codigo = isset($_GET['codigo']) ? trim($_GET['codigo']) : null;
+
+    // if (isset($_GET['codigo'])) {
+    //     $codigo = trim($_GET['codigo']);
+    // } else {
+    //     $codigo = null;
+    // }
+
+    // $codigo = filter_input(INPUT_GET, 'codigo', FILTER_SANITIZE_NUMBER_INT);
+
+    $codigo = obtener_get('codigo');
     $pdo = conectar();
-    $stmt = $pdo->query('SELECT *
-                           FROM departamentos
-                       ORDER BY codigo');
+
+    if ($codigo == null || $codigo == '') {
+        $where = 'true';
+        $execute = [];
+    } else {
+        $where = 'codigo = :codigo';
+        $execute = [':codigo' => $codigo];
+    }
+    $stmt = $pdo->prepare("SELECT *
+                             FROM departamentos
+                            WHERE $where
+                         ORDER BY codigo");
+    $stmt->execute($execute);
     ?>
+    <form action="" method="get">
+        <label>Código:
+            <input type="text" name="codigo" value="<?= $codigo ?>">
+        </label>
+        <button type="submit">Buscar</button>
+    </form>
+    <br>
     <table border="1">
         <thead>
             <th>Código</th>
@@ -30,12 +58,5 @@
             <?php endforeach ?>
         </tbody>
     </table>
-    <!-- // $filas = $stmt->fetchAll();
-    // foreach ($filas as $fila) {
-    //     var_dump($fila);
-    // }
-    // while ($fila = $stmt->fetch()) {
-    //     var_dump($fila);
-    // } -->
 </body>
 </html>
