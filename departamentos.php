@@ -9,36 +9,59 @@
     <?php
     require 'auxiliar.php';
 
-    // $codigo = isset($_GET['codigo']) ? trim($_GET['codigo']) : null;
+    const CRITERIOS = [
+        'AND' => 'Y',
+        'OR' => 'O',
+    ];
 
-    // if (isset($_GET['codigo'])) {
-    //     $codigo = trim($_GET['codigo']);
-    // } else {
-    //     $codigo = null;
-    // }
-
-    // $codigo = filter_input(INPUT_GET, 'codigo', FILTER_SANITIZE_NUMBER_INT);
-
+    $codigo = obtener_get('codigo');
     $denominacion = obtener_get('denominacion');
+    $criterio = obtener_get('criterio');
     $pdo = conectar();
 
-    if ($denominacion == null || $denominacion == '') {
-        $where = 'true';
-        $execute = [];
-    } else {
-        $where = "denominacion ILIKE :denominacion";
-        $execute = [':denominacion' => "%$denominacion%"];
+    $where = [];
+    $execute = [];
+
+    if ($codigo !== null && $codigo != '') {
+        $where[] = "codigo = :codigo";
+        $execute[':codigo'] = $codigo;
     }
+
+    if ($denominacion !== null && $denominacion != '') {
+        $where[] = "denominacion ILIKE :denominacion";
+        $execute[':denominacion'] = "%$denominacion%";
+    }
+
+    if (!empty($where)) {
+        $separador = $criterio == 'OR' ? 'OR' : 'AND';
+        $where = 'WHERE ' . implode(" $separador ", $where);
+    } else {
+        $where = '';
+    }
+
     $stmt = $pdo->prepare("SELECT *
                              FROM departamentos
-                            WHERE $where
+                           $where
                          ORDER BY codigo");
     $stmt->execute($execute);
     ?>
     <form action="" method="get">
+        <label>Código:
+            <input type="text" name="codigo" value="<?= $codigo ?>" size="3">
+        </label>
         <label>Denominación:
             <input type="text" name="denominacion" value="<?= $denominacion ?>">
         </label>
+        <label>Criterio:
+            <select name="criterio">
+                <?php foreach (CRITERIOS as $value => $texto): ?>
+                    <option value="<?= $value ?>" <?= selected($criterio, $value) ?> >
+                        <?= $texto ?>
+                    </option>
+                <?php endforeach ?>
+            </select>
+        </label>
+
         <button type="submit">Buscar</button>
     </form>
     <br>
