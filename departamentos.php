@@ -11,31 +11,57 @@
     <?php
     require 'auxiliar.php';
 
-    // if (isset($_GET['codigo'])) {
-    //     $codigo = trim($_GET['codigo']);
-    // } else {
-    //     $codigo = null;
-    // }
+    const CRITERIOS = [
+        'AND' => 'Y',
+        'OR' => 'O',
+    ];
 
+    $codigo = obtener_get('codigo');
     $denominacion = obtener_get('denominacion');
+    $criterio = obtener_get('criterio');
     $pdo = conectar();
 
-    if ($denominacion == null || $denominacion == '') {
-        $where = 'true';
-        $execute = [];
-    } else {
-        $where = "denominacion ILIKE :denominacion";
-        $execute = [':denominacion' => "%$denominacion%"];
+    $where = [];
+    $execute = [];
+
+    if ($codigo !== null && $codigo != '') {
+        $where[] = "codigo = :codigo";
+        $execute[':codigo'] = "$codigo";
     }
-    $stmt = $pdo->prepare(" SELECT *
+
+    if ($denominacion !== null && $denominacion != '') {
+        $where[] = "denominacion ILIKE :denominacion";
+        $execute[':denominacion'] = "%$denominacion%";
+    }
+
+    if (!empty($where)) {
+        $separador = $criterio == 'OR' ? 'OR' : 'AND';
+        $where = implode(" $separador ", $where);
+        $where = "WHERE $where";
+    } else {
+        $where = ' ';
+    }
+    $stmt = $pdo->prepare("     SELECT *
                                 FROM departamentos
-                                WHERE $where
+                                $where
                                 ORDER BY codigo");
     $stmt->execute($execute);
     ?>
     <form action="" method="get">
+        <label for="codigo">Código:
+            <input type="text" name="codigo" value="<?= $codigo ?>">
+        </label>
         <label for="denominacion">Denominación:
             <input type="text" name="denominacion" value="<?= $denominacion ?>">
+        </label>
+        <label for="criterio">Denominación:
+            <select name="criterio" id="criterio">
+                <?php foreach (CRITERIOS as $value => $texto): ?>
+                    <option value="<?= $value ?>" <?= selected($criterio, $value) ?>>
+                        <?= $texto ?>
+                    </option>
+                <?php endforeach ?>
+            </select>
         </label>
         <button type="submit">Buscar</button>
     </form>
@@ -56,13 +82,6 @@
             <?php endforeach ?>
         </tbody>
     </table>
-    <!-- // $filas = $stmt->fetchAll();
-    // foreach ($filas as $fila) {
-    //     var_dump($fila);
-    // }
-    // while ($fila = $stmt->fetch()) {
-    //     var_dump($fila);
-    // } -->
 </body>
 
 </html>
