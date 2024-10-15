@@ -3,6 +3,7 @@ require 'auxiliar.php';
 
 $id = obtener_post('id');
 if (!isset($id)) {
+    setcookie('error', 'Falta el parámetro id');
     volver_departamentos();
     return;
 }
@@ -11,6 +12,7 @@ $pdo->beginTransaction();
 $pdo->exec('LOCK TABLE empleados IN SHARE MODE');
 $fila = obtener_departamento($id, $pdo, true);
 if ($fila === false) {
+    setcookie('error', 'El departamento no existe');
     volver_departamentos();
     return;
 }

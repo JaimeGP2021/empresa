@@ -9,6 +9,8 @@
     <?php
     require 'auxiliar.php';
 
+    echo $_COOKIE['error'];
+
     const CRITERIOS = [
         'AND' => 'Y',
         'OR' => 'O',
