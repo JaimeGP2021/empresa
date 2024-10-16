@@ -4,7 +4,8 @@ CREATE TABLE departamentos (
     id           BIGSERIAL    PRIMARY KEY,
     codigo       VARCHAR(2)   NOT NULL UNIQUE,
     denominacion VARCHAR(255) NOT NULL,
-    localidad    VARCHAR(255)
+    localidad    VARCHAR(255),
+    fecha_alta   TIMESTAMP    NOT NULL DEFAULT LOCALTIMESTAMP
 );
 
 DROP TABLE IF EXISTS empleados CASCADE;
