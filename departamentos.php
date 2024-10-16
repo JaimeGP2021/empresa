@@ -9,7 +9,16 @@
     <?php
     require 'auxiliar.php';
 
-    echo $_COOKIE['error'];
+    if (isset($_COOKIE['error'])) {
+        echo $_COOKIE['error'];
+        unset($_COOKIE['error']);
+        setcookie('error', '', 1);
+    }
+    if (isset($_COOKIE['exito'])) {
+        echo $_COOKIE['exito'];
+        unset($_COOKIE['exito']);
+        setcookie('exito', '', 1);
+    }
 
     const CRITERIOS = [
         'AND' => 'Y',

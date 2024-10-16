@@ -22,6 +22,7 @@ $stmt = $pdo->prepare('SELECT COUNT(*)
 $stmt->execute([':id' => $id]);
 $cuantos = $stmt->fetchColumn();
 if ($cuantos > 0) {
+    setcookie('error', 'El departamento tiene empleados');
     volver_departamentos();
     return;
 }
@@ -29,4 +30,5 @@ $stmt = $pdo->prepare('DELETE FROM departamentos
                              WHERE id = :id');
 $stmt->execute([':id' => $id]);
 $pdo->commit();
+setcookie('exito', 'El departamento se ha borrado correctamente');
 volver_departamentos();
