@@ -11,6 +11,16 @@
     <?php
     require 'auxiliar.php';
 
+    if (isset($_COOKIE['error'])) {
+        echo $_COOKIE['error'];
+        setcookie('error', '', 1);
+    }
+
+    if (isset($_COOKIE['exito'])) {
+        echo $_COOKIE['exito'];
+        setcookie('exito', '', 1);
+    }
+
     const CRITERIOS = [
         'AND' => 'Y',
         'OR' => 'O',
@@ -79,7 +89,7 @@
                     <td><?= $fila['codigo'] ?></td>
                     <td><?= $fila['denominacion'] ?></td>
                     <td><?= $fila['localidad'] ?></td>
-                    <td><a href="borrar.php?id=<?=$fila['id']?>">Borrar</a></td>
+                    <td><a href="borrar.php?id=<?= $fila['id'] ?>">Borrar</a></td>
                 </tr>
             <?php endforeach ?>
         </tbody>
