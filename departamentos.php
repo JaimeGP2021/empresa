@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -94,6 +94,7 @@
             <?php endforeach ?>
         </tbody>
     </table>
+    <a href="insertar.php">Insertar un nuevo departamento</a>
 </body>
 
 </html>
