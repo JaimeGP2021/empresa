@@ -10,7 +10,7 @@ if (!isset($id)) {
 $pdo = conectar();
 $pdo->beginTransaction();
 $pdo->exec('LOCK TABLE empleados IN SHARE MODE');
-$fila = obtener_departamento($id, $pdo, true);
+$fila = departamento_por_id($id, $pdo, true);
 if ($fila === false) {
     setcookie('error', 'El departamento no existe');
     volver_departamentos();
