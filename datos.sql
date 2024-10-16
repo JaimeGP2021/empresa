@@ -2,10 +2,11 @@ DROP TABLE IF EXISTS departamentos CASCADE;
 DROP TABLE IF EXISTS empleados CASCADE;
 
 CREATE TABLE departamentos (
-    id           BIGSERIAL    PRIMARY KEY,
-    codigo       VARCHAR(2)   NOT NULL UNIQUE,
-    denominacion VARCHAR(255) NOT NULL,
-    localidad    VARCHAR(255)
+    id              BIGSERIAL    PRIMARY KEY,
+    codigo          VARCHAR(2)   NOT NULL UNIQUE,
+    denominacion    VARCHAR(255) NOT NULL,
+    localidad       VARCHAR(255),
+    fecha_alta      TIMESTAMP       NOT NULL DEFAULT LOCALTIMESTAMP
 );
 
 CREATE TABLE empleados (

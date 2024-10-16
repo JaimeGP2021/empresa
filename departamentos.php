@@ -81,6 +81,7 @@
             <th>Código</th>
             <th>Denominación</th>
             <th>Localidad</th>
+            <th>Alta</th>
             <th>Acciones</th>
         </thead>
         <tbody>
@@ -89,6 +90,7 @@
                     <td><?= $fila['codigo'] ?></td>
                     <td><?= $fila['denominacion'] ?></td>
                     <td><?= $fila['localidad'] ?></td>
+                    <td><?= (new DateTimeImmutable($fila['fecha_alta']))->format('Y/m/d h:m') ?></td>
                     <td><a href="borrar.php?id=<?= $fila['id'] ?>">Borrar</a></td>
                 </tr>
             <?php endforeach ?>
