@@ -14,13 +14,15 @@
     $codigo = obtener_post('codigo');
     $denominacion = obtener_post('denominacion');
     $localidad = obtener_post('localidad');
+    $fecha_alta = obtener_post('fecha_alta');
     $pdo = conectar();
 
-    if (isset($codigo, $denominacion, $localidad)) {
+    if (isset($codigo, $denominacion, $localidad, $fecha_alta)) {
         $errores = [];
         comprobar_codigo($codigo, $errores, $pdo);
         comprobar_denominacion($denominacion, $errores, $pdo);
-        comprobar_localidad($localidad, $errores, $pdo);
+        comprobar_localidad($localidad, $errores);
+        comprobar_fecha_alta($fecha_alta, $errores);
 
 
         if (!empty($errores)) {
@@ -33,6 +35,7 @@
                 ':codigo' => $codigo,
                 ':denominacion' => $denominacion,
                 ':localidad' => $localidad,
+                ':fecha_alta' => $fecha_alta,
             ]);
             setcookie('exito', 'El departamento se ha insertado correctamente');
             volver_departamentos();
@@ -51,6 +54,10 @@
         <br>
         <label for="localidad">Localidad:
             <input type="text" name="localidad" id="localidad" value="<?= $localidad?>">
+        </label>
+        <br>
+        <label for="fecha_alta">Fecha de alta:
+            <input type="datetime-local" name="fecha_alta" id="fecha_alta" value="<?= fecha_formulario($fecha_alta, true)?>">
         </label>
         <br>
         <button type="submit">Insertar</button>

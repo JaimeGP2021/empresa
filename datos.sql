@@ -6,7 +6,7 @@ CREATE TABLE departamentos (
     codigo          VARCHAR(2)   NOT NULL UNIQUE,
     denominacion    VARCHAR(255) NOT NULL,
     localidad       VARCHAR(255),
-    fecha_alta      TIMESTAMP       NOT NULL DEFAULT LOCALTIMESTAMP
+    fecha_alta      TIMESTAMP(0)       NOT NULL DEFAULT LOCALTIMESTAMP
 );
 
 CREATE TABLE empleados (
