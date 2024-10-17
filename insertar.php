@@ -57,7 +57,7 @@
         <br>
         <label>
             Fecha de alta:
-            <input type="datetime-local" name="fecha_alta" value="<?= $fecha_alta ?>">
+            <input type="datetime-local" name="fecha_alta" value="<?= fecha_formulario($fecha_alta, true) ?>">
         </label>
         <br>
         <button type="submit">Insertar</button>
