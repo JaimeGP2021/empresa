@@ -12,13 +12,15 @@
     $codigo = obtener_post('codigo');
     $denominacion = obtener_post('denominacion');
     $localidad = obtener_post('localidad');
+    $fecha_alta = obtener_post('fecha_alta');
     $pdo = conectar();
 
-    if (isset($codigo, $denominacion, $localidad)) {
+    if (isset($codigo, $denominacion, $localidad, $fecha_alta)) {
         $errores = [];
         comprobar_codigo($codigo, $errores, $pdo);
         comprobar_denominacion($denominacion, $errores, $pdo);
-        comprobar_localidad($localidad, $errores, $pdo);
+        comprobar_localidad($localidad, $errores);
+        comprobar_fecha_alta($fecha_alta, $errores);
 
         if (!empty($errores)) {
             mostrar_errores($errores);
@@ -51,6 +53,11 @@
         <label>
             Localidad:
             <input type="text" name="localidad" value="<?= $localidad ?>">
+        </label>
+        <br>
+        <label>
+            Fecha de alta:
+            <input type="datetime-local" name="fecha_alta" value="<?= $fecha_alta ?>">
         </label>
         <br>
         <button type="submit">Insertar</button>

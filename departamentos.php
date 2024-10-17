@@ -90,7 +90,7 @@
                     <td><?= $fila['codigo'] ?></td>
                     <td><?= $fila['denominacion'] ?></td>
                     <td><?= $fila['localidad'] ?></td>
-                    <td><?= $fila['fecha_alta'] ?></td>
+                    <td><?= fecha_formateada($fila['fecha_alta']) ?></td>
                     <td><a href="borrar.php?id=<?= $fila['id'] ?>">Borrar</a></td>
                 </tr>
             <?php endforeach ?>

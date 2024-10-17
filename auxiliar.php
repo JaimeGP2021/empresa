@@ -78,14 +78,21 @@ function comprobar_denominacion($denominacion, &$errores, ?PDO $pdo = null)
     }
 }
 
-function comprobar_localidad(&$localidad, &$errores, ?PDO $pdo = null)
+function comprobar_localidad(&$localidad, &$errores)
 {
-    $pdo = $pdo ?? conectar();
     if ($localidad == '') {
         $localidad = null;
     } elseif (mb_strlen($localidad) > 255) {
         anyadir_error('localidad', 'La localidad es demasiado larga', $errores);
     }
+}
+
+function comprobar_fecha_alta(&$fecha_alta, &$errores)
+{
+    // ...
+    $dt = new DateTime($fecha_alta, new DateTimeZone('Europe/Madrid'));
+    $dt->setTimezone(new DateTimeZone('UTC'));
+    $fecha_alta = $dt->format('Y-m-d H:i:s');
 }
 
 function mostrar_errores($errores)
@@ -95,4 +102,14 @@ function mostrar_errores($errores)
             <h2><?= $mensaje ?></h3><?php
         }
     }
+}
+
+function fecha_formateada($fecha, $incluir_hora = false)
+{
+    $fecha = new DateTime($fecha);
+    $fecha->setTimezone(new DateTimeZone('Europe/Madrid'));
+    if ($incluir_hora) {
+        return $fecha->format('d-m-Y H:i:s');
+    }
+    return $fecha->format('d-m-Y');
 }
