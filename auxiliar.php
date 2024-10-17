@@ -120,14 +120,28 @@ function comprobar_fecha_alta(&$fecha_alta, &$errores)
     }
 }
 
+function comprobar_id($id, ?PDO $pdo = null)
+{
+    $pdo = $pdo ?? conectar();
+    if (!isset($_GET['id'])) {
+        return false;
+    }
+    $id = trim($_GET['id']);
+    $stmt = $pdo->prepare(' SELECT * 
+                            FROM departamentos 
+                            WHERE id = :id');
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch();
+}
+
 function mostrar_errores($errores)
 {
     foreach ($errores as $par => $mensajes) {
         foreach ($mensajes as $mensaje) { ?>
             <h2><?= $mensaje ?></h2><?php
-                                }
-                            }
-                        }
+        }
+    }
+}
 
 function fecha_formateada($fecha, $incluir_hora = false)
 {

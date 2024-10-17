@@ -82,7 +82,7 @@
             <th>Denominación</th>
             <th>Localidad</th>
             <th>Alta</th>
-            <th>Acciones</th>
+            <th colspan="2">Acciones</th>
         </thead>
         <tbody>
             <?php foreach ($stmt as $fila): ?>
@@ -92,6 +92,7 @@
                     <td><?= $fila['localidad'] ?></td>
                     <td><?= fecha_formateada($fila['fecha_alta']) ?></td>
                     <td><a href="borrar.php?id=<?= $fila['id'] ?>">Borrar</a></td>
+                    <td><a href="modificar.php?id=<?= $fila['id'] ?>">Editar</a></td>
                 </tr>
             <?php endforeach ?>
         </tbody>
