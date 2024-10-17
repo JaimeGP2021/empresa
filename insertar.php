@@ -26,12 +26,13 @@
             mostrar_errores($errores);
         } else {
             $stmt = $pdo->prepare('INSERT INTO departamentos
-                               (codigo, denominacion, localidad)
-                           VALUES (:codigo, :denominacion, :localidad)');
+                               (codigo, denominacion, localidad, fecha_alta)
+                           VALUES (:codigo, :denominacion, :localidad, :fecha_alta)');
             $stmt->execute([
                 ':codigo' => $codigo,
                 ':denominacion' => $denominacion,
                 ':localidad' => $localidad,
+                ':fecha_alta' => $fecha_alta,
             ]);
             setcookie('exito', 'El departamento se ha insertado correctamente');
             volver_departamentos();
