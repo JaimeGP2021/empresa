@@ -89,7 +89,7 @@ function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
     }
 }
 
-function comprobar_denominacion($denominacion, &$errores, ?PDO $pdo = null)
+function comprobar_denominacion($denominacion, &$errores)
 {
     $pdo = $pdo ?? conectar();
     if ($denominacion === '') {
@@ -185,4 +185,16 @@ function fecha_formulario($fecha, $incluir_hora = false)
         return $fecha->format('Y-m-d H:i:s');
     }
     return $fecha->format('Y-m-d');
+}
+
+function nombre_departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
+{
+    $pdo = $pdo ?? conectar();
+    $sql = 'SELECT denominacion FROM departamentos WHERE id = :id';
+    if ($bloqueo) {
+        $sql .= ' FOR UPDATE';
+    }
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch();
 }
