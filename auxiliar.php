@@ -65,7 +65,8 @@ function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
         anyadir_error('codigo', 'El código es demasiado largo', $errores);
     } else {
         $departamento = departamento_por_codigo($codigo, $pdo);
-        if ($departamento !== false && $id != null && $departamento['id'] != $id) {
+        if ($departamento !== false &&
+            ($id === null || $departamento['id'] != $id)) {
             anyadir_error('codigo', 'Ese departamento ya existe', $errores);
         }
     }
