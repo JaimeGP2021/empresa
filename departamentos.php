@@ -13,11 +13,13 @@
 
     if (isset($_COOKIE['error'])) {
         echo $_COOKIE['error'];
+        unset($_COOKIE['error']);
         setcookie('error', '', 1);
     }
 
     if (isset($_COOKIE['exito'])) {
         echo $_COOKIE['exito'];
+        unset($_COOKIE['exito']);
         setcookie('exito', '', 1);
     }
 
@@ -46,11 +48,11 @@
 
     if (!empty($where)) {
         $separador = $criterio == 'OR' ? 'OR' : 'AND';
-        $where = implode(" $separador ", $where);
-        $where = "WHERE $where";
+        $where = 'WHERE ' . implode(" $separador ", $where);
     } else {
         $where = ' ';
     }
+
     $stmt = $pdo->prepare("     SELECT *
                                 FROM departamentos
                                 $where
@@ -59,7 +61,7 @@
     ?>
     <form action="" method="get">
         <label for="codigo">Código:
-            <input type="text" name="codigo" value="<?= $codigo ?>">
+            <input type="text" name="codigo" value="<?= $codigo ?>" size="3">
         </label>
         <label for="denominacion">Denominación:
             <input type="text" name="denominacion" value="<?= $denominacion ?>">
@@ -91,8 +93,8 @@
                     <td><?= $fila['denominacion'] ?></td>
                     <td><?= $fila['localidad'] ?></td>
                     <td><?= fecha_formateada($fila['fecha_alta']) ?></td>
-                    <td><a href="borrar.php?id=<?= $fila['id'] ?>">Borrar</a></td>
                     <td><a href="modificar.php?id=<?= $fila['id'] ?>">Editar</a></td>
+                    <td><a href="borrar.php?id=<?= $fila['id'] ?>">Borrar</a></td>
                 </tr>
             <?php endforeach ?>
         </tbody>

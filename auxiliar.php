@@ -56,15 +56,18 @@ function anyadir_error($par, $mensaje, &$errores)
     $errores[$par][] = $mensaje;
 }
 
-function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null)
+function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
 {
     $pdo = $pdo ?? conectar();
-    if ($codigo === '') {
+    if ($codigo == '') {
         anyadir_error('codigo', 'El código no puede estar vacío', $errores);
     } elseif (mb_strlen($codigo) > 2) {
         anyadir_error('codigo', 'El código es demasiado largo', $errores);
-    } elseif (departamento_por_codigo($codigo, $pdo)) {
-        anyadir_error('codigo', 'Ese departamento ya existe', $errores);
+    } else {
+        $departamento = departamento_por_codigo($codigo, $pdo);
+        if ($departamento !== false && $id != null && $departamento['id'] != $id) {
+            anyadir_error('codigo', 'Ese departamento ya existe', $errores);
+        }
     }
 }
 
@@ -120,13 +123,16 @@ function comprobar_fecha_alta(&$fecha_alta, &$errores)
     }
 }
 
-function comprobar_id($id, ?PDO $pdo = null)
+function comprobar_id($id, ?PDO $pdo = null): array|false
 {
     $pdo = $pdo ?? conectar();
     if (!isset($_GET['id'])) {
         return false;
     }
     $id = trim($_GET['id']);
+    if (!ctype_digit($id)) {
+        return false;
+    }
     $stmt = $pdo->prepare(' SELECT * 
                             FROM departamentos 
                             WHERE id = :id');
