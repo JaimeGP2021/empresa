@@ -24,10 +24,27 @@ function volver_departamentos()
     header('Location: departamentos.php');
 }
 
+function volver_empleados()
+{
+    header('Location: empleados.php');
+}
+
 function departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
 {
     $pdo = $pdo ?? conectar();
     $sql = 'SELECT * FROM departamentos WHERE id = :id';
+    if ($bloqueo) {
+        $sql .= ' FOR UPDATE';
+    }
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch();
+}
+
+function empleado_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
+{
+    $pdo = $pdo ?? conectar();
+    $sql = 'SELECT * FROM empleados WHERE id = :id';
     if ($bloqueo) {
         $sql .= ' FOR UPDATE';
     }

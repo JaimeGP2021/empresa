@@ -22,6 +22,7 @@
             <th>Apellidos</th>
             <th>Código Departamento</th>
             <th>Departamento</th>
+            <th colspan="2">Acciones</th>
         </thead>
         <tbody>
             <?php foreach ($stmt as $fila): ?>
@@ -31,9 +32,12 @@
                     <td><?= $fila['apellidos'] ?></td>
                     <td><?= $fila['codigo'] ?></td>
                     <td><?= $fila['denominacion'] ?></td>
+                    <td><a href="modificar_empleado.php?id=<?= $fila['id'] ?>">Editar</a></td>
+                    <td><a href="borrar_empleado.php?id=<?= $fila['id'] ?>">Borrar</a></td>
                 </tr>
             <?php endforeach ?>
         </tbody>
     </table>
+    <a href="insertar_empleado.php">Insertar un nuevo empleado</a>
 </body>
 </html>
