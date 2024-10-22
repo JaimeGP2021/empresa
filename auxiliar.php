@@ -187,7 +187,16 @@ function fecha_formulario($fecha, $incluir_hora = false)
     return $fecha->format('Y-m-d');
 }
 
-function nombre_departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
+function obtener_departamentos() 
+{
+    $pdo = $pdo ?? conectar();
+    $sql = 'SELECT id FROM departamentos';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
+function nombre_departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false)
 {
     $pdo = $pdo ?? conectar();
     $sql = 'SELECT denominacion FROM departamentos WHERE id = :id';
@@ -196,5 +205,5 @@ function nombre_departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): ar
     }
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':id' => $id]);
-    return $stmt->fetch();
+    return $stmt->fetch()['denominacion'];
 }

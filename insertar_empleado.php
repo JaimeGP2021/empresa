@@ -16,16 +16,16 @@
     $apellidos = obtener_post('apellidos');
     $departamento_id = obtener_post('departamento_id');
     $pdo = conectar();
-
+    $id_departamentos = obtener_departamentos();    
     if (isset($numero, $nombre, $apellidos, $departamento_id)) {
         $errores = [];
-        comprobar_numero($numero, $errores, $pdo);
-        comprobar_nombre($nombre, $errores, $pdo);
-        comprobar_apellidos($apellidos, $errores);
-        comprobar_departamento_id($departamento_id, $errores);
+    //     comprobar_numero($numero, $errores, $pdo);
+    //     comprobar_nombre($nombre, $errores, $pdo);
+    //     comprobar_apellidos($apellidos, $errores);
+    //     comprobar_departamento_id($departamento_id, $errores);
 
-
-        if (!empty($errores)) {
+    
+    if (!empty($errores)) {
             mostrar_errores($errores);
         } else {
             $stmt = $pdo->prepare(' INSERT INTO empleados 
@@ -37,7 +37,7 @@
                 ':apellidos' => $apellidos,
                 ':departamento_id' => $departamento_id,
             ]);
-            setcookie('exito', 'El departamento se ha insertado correctamente');
+            setcookie('exito', 'El empleado se ha insertado correctamente');
             volver_empleados();
             return;
         }
@@ -57,11 +57,11 @@
         </label>
         <br>
         <label for="departamento_id">Departamento:
-            <input type="select" name="departamento_id" id="departamento_id">
-                <?php foreach ($departamento_id as $id_departamento) {
-                    ?><option value="<?=$id_departamento?>"><?php nombre_departamento_por_id($id_departamento)?></option> 
+            <select name="departamento_id" id="departamento_id" value="<?= $departamento_id?>">
+                <?php foreach ($id_departamentos as $id => $id_departamento) {
+                    ?><option value="<?=$id_departamento?>"><?= nombre_departamento_por_id($id_departamento)?></option> 
                     <?php }?>
-                ?> 
+            </select>
         </label>
         <br>
         <button type="submit">Insertar</button>
