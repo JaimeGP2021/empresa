@@ -207,15 +207,15 @@ function comprobar_apellidos($apellido, &$errores)
     }
 }
 
-function comprobar_departamento_id($departamento_id, &$errores)
+function comprobar_departamento_id(&$departamento_id, &$errores, ?PDO $pdo = null)
 {
     $pdo = $pdo ?? conectar();
     if ($departamento_id === '') {
-        anyadir_error('departamento_id', 'El departamento no puede estar vacío', $errores);
-    } elseif (mb_strlen($departamento_id) > 255) {
-        anyadir_error('departamento_id', 'El departamento es demasiado largo', $errores);
+        $departamento_id = null;
+    } elseif (!ctype_digit($departamento_id)) {
+        anyadir_error('departamento_id', 'El departamento no es válido', $errores);
     } elseif (!(in_array($departamento_id, obtener_departamentos()))) {
-        anyadir_error('departamento_id', 'El departamento debe existir', $errores);
+        anyadir_error('departamento_id', 'El departamento no existe', $errores);
     }
 }
 

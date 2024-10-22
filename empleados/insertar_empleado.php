@@ -58,6 +58,7 @@
         <br>
         <label for="departamento_id">Departamento:
             <select name="departamento_id" id="departamento_id" value="<?= $departamento_id?>">
+                <option value="">(Ninguno)</option>
                 <?php foreach ($id_departamentos as $id => $id_departamento) {
                     ?><option value="<?=$id_departamento?>"><?= nombre_departamento_por_id($id_departamento)?></option> 
                     <?php }?>
