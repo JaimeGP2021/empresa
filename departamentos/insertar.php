@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
 </head>
 <body>
     <?php
-    require 'auxiliar.php';
+    require '../auxiliar/auxiliar.php';
 
     $codigo = obtener_post('codigo');
     $denominacion = obtener_post('denominacion');
@@ -34,7 +35,7 @@
                 ':localidad' => $localidad,
                 ':fecha_alta' => $fecha_alta,
             ]);
-            setcookie('exito', 'El departamento se ha insertado correctamente');
+            $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
             volver();
             return;
         }

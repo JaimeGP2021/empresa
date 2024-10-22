@@ -2,7 +2,11 @@
 
 function conectar()
 {
-    return new PDO('pgsql:host=localhost;dbname=datos', 'datos', 'datos');
+    try {
+        return new PDO('pgsql:host=localhost;dbname=datos', 'datos', 'datos');
+    } catch (PDOException $e) {
+        return false;
+    }
 }
 
 function obtener_get($par) {

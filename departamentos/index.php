@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,10 +15,10 @@
         unset($_COOKIE['error']);
         setcookie('error', '', 1);
     }
-    if (isset($_COOKIE['exito'])) {
-        echo $_COOKIE['exito'];
-        unset($_COOKIE['exito']);
-        setcookie('exito', '', 1);
+
+    if (isset($_SESSION['exito'])) {
+        echo $_SESSION['exito'];
+        // unset($_SESSION['exito']);
     }
 
     const CRITERIOS = [

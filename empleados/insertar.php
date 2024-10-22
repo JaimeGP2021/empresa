@@ -13,7 +13,7 @@
     $nombre = obtener_post('nombre');
     $apellidos = obtener_post('apellidos');
     $departamento_id = obtener_post('departamento_id');
-    $pdo = conectar();
+    $pdo = conectar() or die("No se ha podido establecer una conexión");
 
     if (isset($numero, $nombre, $apellidos, $departamento_id)) {
         $errores = [];
