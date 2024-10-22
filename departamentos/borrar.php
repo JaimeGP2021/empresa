@@ -9,20 +9,20 @@
 
 <body>
     <?php
-    require 'auxiliar.php';
+    require '../auxiliar/auxiliar.php';
 
     $id = obtener_get('id');
 
     if (!isset($id)) {
-        volver_empleados();
+        volver();
         return;
     }
     ?>
-    <form action="hacer_borrado_empleado.php" method="post">
+    <form action="hacer_borrado.php" method="post">
         <input type="hidden" name="id" value="<?= $id ?>">
         ¿Estás seguro?
         <button type="submit">Sí</button>
-        <a href="empleados.php">No</a>
+        <a href="index.php">No</a>
         </label>
     </form>
 </body>

@@ -1,10 +1,10 @@
 <?php
-require 'auxiliar.php';
+require '../auxiliar/auxiliar.php';
 
 $id = obtener_post('id');
 if (!isset($id)) {
     setcookie('error', 'Falta el parámetro id');
-    volver_departamentos();
+    volver();
     return;
 }
 $pdo = conectar();
@@ -13,7 +13,7 @@ $pdo->exec('LOCK TABLE empleados IN SHARE MODE');
 $fila = departamento_por_id($id, $pdo, true);
 if ($fila == false) {
     setcookie('error', 'El departamento no existe');
-    volver_departamentos();
+    volver();
     return;
 }
 $stmt = $pdo->prepare('SELECT COUNT(*)
@@ -23,7 +23,7 @@ $stmt->execute([':id' => $id]);
 $cuantos = $stmt->fetchColumn();
 if ($cuantos > 0) {
     setcookie('error', 'El departamento tiene empleados');
-    volver_departamentos();
+    volver();
     return;
 }
 
@@ -32,4 +32,4 @@ $stmt = $pdo->prepare(' DELETE FROM departamentos
 $stmt->execute([':id' => $id]);
 $pdo->commit();
 setcookie('exito', 'El departamento se ha borrado correctamente');
-volver_departamentos();
+volver();

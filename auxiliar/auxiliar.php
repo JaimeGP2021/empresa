@@ -19,14 +19,9 @@ function selected($criterio, $valor)
     return $criterio == $valor ? 'selected' : '';
 }
 
-function volver_departamentos()
+function volver()
 {
-    header('Location: departamentos.php');
-}
-
-function volver_empleados()
-{
-    header('Location: empleados.php');
+    header('Location: index.php');
 }
 
 function departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false

@@ -9,14 +9,14 @@
 
 <body>
     <?php
-    require 'auxiliar.php';
+    require '../auxiliar/auxiliar.php';
 
     $id = obtener_get('id');
     $pdo = conectar();
 
     if (!($fila = comprobar_id($id, $pdo))) {
         setcookie('error', 'Error al recuperar el departamento');
-        volver_departamentos();
+        volver();
         return;
     }
 
@@ -51,7 +51,7 @@
                     ':fecha_alta' => $fecha_alta,
                 ]);
                 setcookie('exito', 'El departamento se ha insertado correctamente');
-                volver_departamentos();
+                volver();
                 return;
             }
         }
@@ -80,7 +80,7 @@
         </label>
         <br>
         <button type="submit">Modificar</button>
-        <a href="departamentos.php">Cancelar</a>
+        <a href="index.php">Cancelar</a>
     </form>
 </body>
 

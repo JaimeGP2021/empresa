@@ -9,7 +9,7 @@
 
 <body>
     <?php
-    require 'auxiliar.php';
+    require '../auxiliar/auxiliar.php';
 
     $numero = obtener_post('numero');
     $nombre = obtener_post('nombre');
@@ -38,7 +38,7 @@
                 ':departamento_id' => $departamento_id,
             ]);
             setcookie('exito', 'El empleado se ha insertado correctamente');
-            volver_empleados();
+            volver();
             return;
         }
     }
@@ -65,7 +65,7 @@
         </label>
         <br>
         <button type="submit">Insertar</button>
-        <a href="empleados.php">Volver</a>
+        <a href="index.php">Volver</a>
     </form>
 </body>
 
