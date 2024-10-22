@@ -19,7 +19,7 @@
         <thead>
             <th>Número</th>
             <th>Nombre</th>
-            <th>Apellidos</th>
+            <th>Apellido(s)</th>
             <th>Código Departamento</th>
             <th>Departamento</th>
             <th colspan="2">Acciones</th>

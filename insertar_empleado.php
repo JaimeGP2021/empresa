@@ -19,10 +19,10 @@
     $id_departamentos = obtener_departamentos();    
     if (isset($numero, $nombre, $apellidos, $departamento_id)) {
         $errores = [];
-    //     comprobar_numero($numero, $errores, $pdo);
-    //     comprobar_nombre($nombre, $errores, $pdo);
-    //     comprobar_apellidos($apellidos, $errores);
-    //     comprobar_departamento_id($departamento_id, $errores);
+        comprobar_numero($numero, $errores, $pdo);
+        comprobar_nombre($nombre, $errores, $pdo);
+        comprobar_apellidos($apellidos, $errores);
+        comprobar_departamento_id($departamento_id, $errores);
 
     
     if (!empty($errores)) {
@@ -44,7 +44,7 @@
     }
     ?>
     <form action="" method="post">
-        <label for="numero">Código:
+        <label for="numero">Número:
             <input type="text" name="numero" id="numero" value="<?= $numero?>">
         </label>
         <br>
@@ -52,7 +52,7 @@
             <input type="text" name="nombre" id="nombre" value="<?= $nombre?>">
         </label>
         <br>
-        <label for="apellidos">Apellidos:
+        <label for="apellidos">Apellido(s):
             <input type="text" name="apellidos" id="apellidos" value="<?= $apellidos?>">
         </label>
         <br>

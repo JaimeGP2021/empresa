@@ -73,6 +73,8 @@ function anyadir_error($par, $mensaje, &$errores)
     $errores[$par][] = $mensaje;
 }
 
+// Comienzan comprobaciones de departamentos
+
 function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
 {
     $pdo = $pdo ?? conectar();
@@ -156,6 +158,70 @@ function comprobar_id($id, ?PDO $pdo = null): array|false
                             WHERE id = :id');
     $stmt->execute([':id' => $id]);
     return $stmt->fetch();
+}
+
+// Comienzan comprobaciones empleados
+
+function empleado_por_numero($numero, ?PDO $pdo = null, $bloqueo = false): array|false
+{
+    $pdo = $pdo ?? conectar();
+    $sql = 'SELECT * FROM empleados WHERE numero = :numero';
+    if ($bloqueo) {
+        $sql .= ' FOR UPDATE';
+    }
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':numero' => $numero]);
+    return $stmt->fetch();
+}
+
+function comprobar_numero($numero, &$errores, ?PDO $pdo = null, $id = null)
+{
+    $pdo = $pdo ?? conectar();
+    if ($numero == '') {
+        anyadir_error('numero', 'El número no puede estar vacío', $errores);
+    } elseif (mb_strlen($numero) > 255) {
+        anyadir_error('numero', 'El número es demasiado largo', $errores);
+    } elseif (!ctype_digit($numero)) {
+        anyadir_error('numero', 'El número sólo puede contener carácteres numéricos', $errores);
+    } else {
+        $empleado = empleado_por_numero($numero, $pdo);
+        if ($empleado !== false && 
+            ($id === null || $empleado['id'] != $id)) {
+            anyadir_error('numero', 'Ese empleado ya existe', $errores);
+        }
+    }
+}
+
+function comprobar_nombre($nombre, &$errores)
+{
+    $pdo = $pdo ?? conectar();
+    if ($nombre === '') {
+        anyadir_error('nombre', 'El nombre no puede estar vacío', $errores);
+    } elseif (mb_strlen($nombre) > 255) {
+        anyadir_error('nombre', 'El nombre es demasiado largo', $errores);
+    }
+}
+
+function comprobar_apellidos($apellido, &$errores)
+{
+    $pdo = $pdo ?? conectar();
+    if ($apellido === '') {
+        anyadir_error('apellido', 'El apellido no puede estar vacío', $errores);
+    } elseif (mb_strlen($apellido) > 255) {
+        anyadir_error('apellido', 'El apellido es demasiado largo', $errores);
+    }
+}
+
+function comprobar_departamento_id($departamento_id, &$errores)
+{
+    $pdo = $pdo ?? conectar();
+    if ($departamento_id === '') {
+        anyadir_error('departamento_id', 'El departamento no puede estar vacío', $errores);
+    } elseif (mb_strlen($departamento_id) > 255) {
+        anyadir_error('departamento_id', 'El departamento es demasiado largo', $errores);
+    } elseif (!(in_array($departamento_id, obtener_departamentos()))) {
+        anyadir_error('departamento_id', 'El departamento debe existir', $errores);
+    }
 }
 
 function mostrar_errores($errores)
