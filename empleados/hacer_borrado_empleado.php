@@ -1,5 +1,5 @@
 <?php
-require 'auxiliar.php';
+require '../auxiliar/auxiliar.php';
 
 $id = obtener_post('id');
 if (!isset($id)) {
