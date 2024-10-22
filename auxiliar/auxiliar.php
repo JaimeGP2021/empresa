@@ -18,9 +18,9 @@ function selected($criterio, $valor)
     return $criterio == $valor ? 'selected' : '';
 }
 
-function volver_departamentos()
+function volver()
 {
-    header('Location: departamentos.php');
+    header('Location: index.php');
 }
 
 function departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
@@ -47,6 +47,12 @@ function departamento_por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): a
     return $stmt->fetch();
 }
 
+function departamentos(?PDO $pdo = null)
+{
+    $pdo = $pdo ?? conectar();
+    $stmt = $pdo->query('SELECT * FROM departamentos ORDER BY codigo');
+    return $stmt->fetchAll();
+}
 
 function anyadir_error($par, $mensaje, &$errores)
 {
@@ -72,9 +78,8 @@ function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
     }
 }
 
-function comprobar_denominacion($denominacion, &$errores, ?PDO $pdo = null)
+function comprobar_denominacion($denominacion, &$errores)
 {
-    $pdo = $pdo ?? conectar();
     if ($denominacion == '') {
         anyadir_error('denominacion', 'La denominación no puede estar vacía', $errores);
     } elseif (mb_strlen($denominacion) > 255) {
@@ -139,6 +144,18 @@ function comprobar_id($id, ?PDO $pdo = null): array|false
                             WHERE id = :id');
     $stmt->execute([':id' => $id]);
     return $stmt->fetch();
+}
+
+function comprobar_departamento_id(&$departamento_id, &$errores, ?PDO $pdo = null)
+{
+    $pdo = $pdo ?? conectar();
+    if ($departamento_id == '') {
+        $departamento_id = null;
+    } elseif (!ctype_digit($departamento_id)) {
+        anyadir_error('departamento_id', 'El departamento no es válido', $errores);
+    } elseif (departamento_por_id($departamento_id, $pdo) === false) {
+        anyadir_error('departamento_id', 'El departamento no existe', $errores);
+    }
 }
 
 function mostrar_errores($errores)

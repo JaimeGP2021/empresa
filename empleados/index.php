@@ -7,7 +7,7 @@
 </head>
 <body>
     <?php
-    require 'auxiliar.php';
+    require '../auxiliar/auxiliar.php';
 
     $pdo = conectar();
     $stmt = $pdo->query('SELECT e.*, d.codigo, d.denominacion, d.localidad

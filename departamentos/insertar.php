@@ -35,7 +35,7 @@
                 ':fecha_alta' => $fecha_alta,
             ]);
             setcookie('exito', 'El departamento se ha insertado correctamente');
-            volver_departamentos();
+            volver();
             return;
         }
     }

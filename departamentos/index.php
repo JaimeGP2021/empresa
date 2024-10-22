@@ -7,7 +7,7 @@
 </head>
 <body>
     <?php
-    require 'auxiliar.php';
+    require '../auxiliar/auxiliar.php';
 
     if (isset($_COOKIE['error'])) {
         echo $_COOKIE['error'];
