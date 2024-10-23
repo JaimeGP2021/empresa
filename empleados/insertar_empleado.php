@@ -8,29 +8,25 @@
 </head>
 
 <body>
-    <?php
+<?php
     require '../auxiliar/auxiliar.php';
-
     $numero = obtener_post('numero');
     $nombre = obtener_post('nombre');
     $apellidos = obtener_post('apellidos');
     $departamento_id = obtener_post('departamento_id');
-    $pdo = conectar();
-    $id_departamentos = obtener_departamentos();    
+    $pdo = conectar() or die("No se ha podido establecer una conexión");
     if (isset($numero, $nombre, $apellidos, $departamento_id)) {
         $errores = [];
         comprobar_numero($numero, $errores, $pdo);
         comprobar_nombre($nombre, $errores, $pdo);
         comprobar_apellidos($apellidos, $errores);
-        comprobar_departamento_id($departamento_id, $errores);
-
-    
-    if (!empty($errores)) {
+        comprobar_departamento_id($departamento_id, $errores, $pdo);
+        if (!empty($errores)) {
             mostrar_errores($errores);
         } else {
-            $stmt = $pdo->prepare(' INSERT INTO empleados 
-                                    (numero, nombre, apellidos, departamento_id)
-                                    VALUES (:numero, :nombre, :apellidos, :departamento_id)');
+            $stmt = $pdo->prepare('INSERT INTO empleados
+                               (numero, nombre, apellidos, departamento_id)
+                           VALUES (:numero, :nombre, :apellidos, :departamento_id)');
             $stmt->execute([
                 ':numero' => $numero,
                 ':nombre' => $nombre,
@@ -44,30 +40,35 @@
     }
     ?>
     <form action="" method="post">
-        <label for="numero">Número:
-            <input type="text" name="numero" id="numero" value="<?= $numero?>">
+        <label>
+            Número:
+            <input type="text" name="numero" value="<?= $numero ?>">
         </label>
         <br>
-        <label for="nombre">Nombre:
-            <input type="text" name="nombre" id="nombre" value="<?= $nombre?>">
+        <label>
+            Nombre:
+            <input type="text" name="nombre" value="<?= $nombre ?>">
         </label>
         <br>
-        <label for="apellidos">Apellido(s):
-            <input type="text" name="apellidos" id="apellidos" value="<?= $apellidos?>">
+        <label>
+            Apellidos:
+            <input type="text" name="apellidos" value="<?= $apellidos ?>">
         </label>
         <br>
-        <label for="departamento_id">Departamento:
-            <select name="departamento_id" id="departamento_id" value="<?= $departamento_id?>">
+        <label>
+            Departamento:
+            <select name="departamento_id">
                 <option value="">(Ninguno)</option>
-                <?php foreach ($id_departamentos as $id => $id_departamento) {
-                    ?><option value="<?=$id_departamento?>"><?= nombre_departamento_por_id($id_departamento)?></option> 
-                    <?php }?>
+                <?php foreach (departamentos() as $dep): ?>
+                    <option value="<?= $dep['id'] ?>">
+                        <?= "({$dep['codigo']}) {$dep['denominacion']}" ?>
+                    </option>
+                <?php endforeach ?>
             </select>
         </label>
         <br>
         <button type="submit">Insertar</button>
-        <a href="index.php">Volver</a>
+        <a href="empleados.php">Cancelar</a>
     </form>
 </body>
-
 </html>

@@ -12,10 +12,9 @@
     <?php
     require '../auxiliar/auxiliar.php';
 
-    if (isset($_COOKIE['error'])) {
-        echo $_COOKIE['error'];
-        unset($_COOKIE['error']);
-        setcookie('error', '', 1);
+    if (isset($_SESSION['exito'])) {
+        echo $_SESSION['exito'];
+        // unset($_SESSION['exito']);
     }
 
     if (isset($_COOKIE['exito'])) {

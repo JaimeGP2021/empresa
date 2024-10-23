@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -37,7 +38,7 @@
                 ':localidad' => $localidad,
                 ':fecha_alta' => $fecha_alta,
             ]);
-            setcookie('exito', 'El departamento se ha insertado correctamente');
+            $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
             volver();
             return;
         }

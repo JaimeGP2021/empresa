@@ -1,7 +1,11 @@
 <?php
 function conectar()
 {
-    return new PDO('pgsql:host=localhost;dbname=datos', 'datos', 'datos');
+    try {
+        return new PDO('pgsql:host=localhost;dbname=datos', 'datos', 'datos');
+    } catch (PDOException $e) {
+        return false;
+    }
 }
 
 function obtener_get($par)
@@ -60,6 +64,13 @@ function departamento_por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): a
     return $stmt->fetch();
 }
 
+function departamentos(?PDO $pdo = null)
+{
+    $pdo = $pdo ?? conectar();
+    $stmt = $pdo->query('SELECT * FROM departamentos ORDER BY codigo');
+    return $stmt->fetchAll();
+}
+
 function anyadir_error($par, $mensaje, &$errores)
 {
     if (!isset($errores[$par])) {
@@ -88,7 +99,6 @@ function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
 
 function comprobar_denominacion($denominacion, &$errores)
 {
-    $pdo = $pdo ?? conectar();
     if ($denominacion === '') {
         anyadir_error('denominacion', 'La denominación no puede estar vacía', $errores);
     } elseif (mb_strlen($denominacion) > 255) {
@@ -210,11 +220,11 @@ function comprobar_apellidos($apellido, &$errores)
 function comprobar_departamento_id(&$departamento_id, &$errores, ?PDO $pdo = null)
 {
     $pdo = $pdo ?? conectar();
-    if ($departamento_id === '') {
+    if ($departamento_id == '') {
         $departamento_id = null;
     } elseif (!ctype_digit($departamento_id)) {
         anyadir_error('departamento_id', 'El departamento no es válido', $errores);
-    } elseif (!(in_array($departamento_id, obtener_departamentos()))) {
+    } elseif (departamento_por_id($departamento_id, $pdo) === false) {
         anyadir_error('departamento_id', 'El departamento no existe', $errores);
     }
 }
@@ -246,25 +256,4 @@ function fecha_formulario($fecha, $incluir_hora = false)
         return $fecha->format('Y-m-d H:i:s');
     }
     return $fecha->format('Y-m-d');
-}
-
-function obtener_departamentos() 
-{
-    $pdo = $pdo ?? conectar();
-    $sql = 'SELECT id FROM departamentos';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_COLUMN);
-}
-
-function nombre_departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false)
-{
-    $pdo = $pdo ?? conectar();
-    $sql = 'SELECT denominacion FROM departamentos WHERE id = :id';
-    if ($bloqueo) {
-        $sql .= ' FOR UPDATE';
-    }
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':id' => $id]);
-    return $stmt->fetch()['denominacion'];
 }
