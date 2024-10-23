@@ -34,7 +34,7 @@
                 ':apellidos' => $apellidos,
                 ':departamento_id' => $departamento_id,
             ]);
-            setcookie('exito', 'El empleado se ha insertado correctamente');
+            $_SESSION['exito'] = 'El empleado se ha insertado correctamente';
             volver();
             return;
         }

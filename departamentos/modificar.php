@@ -13,7 +13,7 @@
     $pdo = conectar();
 
     if (!($fila = comprobar_id($id, $pdo))) {
-        setcookie('error', 'Error al recuperar el departamento');
+        $_SESSION['error'] = 'Error al recuperar el departamento';
         volver();
         return;
     }
@@ -47,7 +47,7 @@
                     ':localidad' => $localidad,
                     ':fecha_alta' => $fecha_alta,
                 ]);
-                setcookie('exito', 'El departamento se ha insertado correctamente');
+                $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
                 volver();
                 return;
             }
