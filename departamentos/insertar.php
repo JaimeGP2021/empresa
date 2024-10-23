@@ -10,6 +10,12 @@
     <?php
     require '../auxiliar/auxiliar.php';
 
+    if (!es_admin()) {
+        $_SESSION['error'] = 'No tiene permisos suficientes.';
+        volver_departamentos();
+        return;
+    }
+
     cabecera();
 
     $codigo = obtener_post('codigo');

@@ -89,6 +89,6 @@
             <?php endforeach ?>
         </tbody>
     </table>
-    <a href="insertar.php">Insertar un nuevo departamento</a>
+    <a href="/departamentos/insertar.php">Insertar un nuevo departamento</a>
 </body>
 </html>

@@ -216,6 +216,11 @@ function logueado()
     return isset($_SESSION['login']);
 }
 
+function es_admin()
+{
+    return logueado() && $_SESSION['login'] == 'admin';
+}
+
 function boton_logout()
 { ?>
     <?php
