@@ -15,7 +15,7 @@
     $id = obtener_get('id');
 
     if (!isset($id)) {
-        volver();
+        volver_departamento();
         return;
     }
     ?>

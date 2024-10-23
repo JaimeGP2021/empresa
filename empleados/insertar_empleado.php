@@ -35,7 +35,7 @@
                 ':departamento_id' => $departamento_id,
             ]);
             $_SESSION['exito'] = 'El empleado se ha insertado correctamente';
-            volver();
+            volver_empleados();
             return;
         }
     }

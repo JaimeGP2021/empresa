@@ -39,7 +39,7 @@
                 ':fecha_alta' => $fecha_alta,
             ]);
             $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
-            volver();
+            volver_departamento();
             return;
         }
     }
@@ -62,7 +62,7 @@
         </label>
         <br>
         <button type="submit">Insertar</button>
-        <a href="index.php">Volver</a>
+        <a href="index.php">volver_departamento</a>
     </form>
 </body>
 

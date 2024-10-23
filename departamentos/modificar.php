@@ -17,7 +17,7 @@
 
     if (!($fila = comprobar_id($id, $pdo))) {
         $_SESSION['error'] = 'Error al recuperar el departamento';
-        volver();
+        volver_departamento();
         return;
     }
 
@@ -52,7 +52,7 @@
                     ':fecha_alta' => $fecha_alta,
                 ]);
                 $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
-                volver();
+                volver_departamento();
                 return;
             }
         }

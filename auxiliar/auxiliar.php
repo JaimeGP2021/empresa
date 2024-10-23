@@ -25,12 +25,17 @@ function selected($criterio, $valor)
 
 function volver()
 {
-    header('Location: index.php');
+    header('Location: /index.php');
 }
 
 function volver_empleados()
 {
     header('Location: /empleados/');
+}
+
+function volver_departamento()
+{
+    header('Location: /departamentos/');
 }
 
 function departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
