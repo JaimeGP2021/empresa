@@ -12,15 +12,14 @@
     <?php
     require '../auxiliar/auxiliar.php';
 
-    if (isset($_SESSION['exito'])) {
-        echo $_SESSION['exito'];
-        // unset($_SESSION['exito']);
+    if (isset($_SESSION['error'])) {
+        echo $_SESSION['error'];
+        unset($_SESSION['error']);
     }
 
-    if (isset($_COOKIE['exito'])) {
-        echo $_COOKIE['exito'];
-        unset($_COOKIE['exito']);
-        setcookie('exito', '', 1);
+    if (isset($_SESSION['exito'])) {
+        echo $_SESSION['exito'];
+        unset($_SESSION['exito']);
     }
 
     const CRITERIOS = [
