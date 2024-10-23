@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +13,11 @@
     $id = obtener_get('id');
 
     if (!isset($id)) {
-        volver();
+        volver_departamentos();
         return;
     }
+
+    cabecera();
     ?>
     <form action="hacer_borrado.php" method="post">
         <input type="hidden" name="id" value="<?= $id ?>">

@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,10 +36,12 @@
                 ':departamento_id' => $departamento_id,
             ]);
             $_SESSION['exito'] = 'El empleado se ha insertado correctamente';
-            volver();
+            volver_empleados();
             return;
         }
     }
+
+    cabecera();
     ?>
     <form action="" method="post">
         <label>

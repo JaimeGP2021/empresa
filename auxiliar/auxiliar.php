@@ -24,7 +24,17 @@ function selected($criterio, $valor)
 
 function volver()
 {
-    header('Location: index.php');
+    header('Location: /');
+}
+
+function volver_empleados()
+{
+    header('Location: /empleados/');
+}
+
+function volver_departamentos()
+{
+    header('Location: /departamentos/');
 }
 
 function departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
@@ -48,6 +58,16 @@ function departamento_por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): a
     }
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':codigo' => $codigo]);
+    return $stmt->fetch();
+}
+
+function usuario_por_username($username, ?PDO $pdo = null)
+{
+    $pdo = $pdo ?? conectar();
+    $stmt = $pdo->prepare('SELECT *
+                             FROM usuarios
+                            WHERE username = :username');
+    $stmt->execute([':username' => $username]);
     return $stmt->fetch();
 }
 
@@ -189,4 +209,36 @@ function fecha_formulario($fecha, $incluir_hora = false)
         return $fecha->format('Y-m-d H:i:s');
     }
     return $fecha->format('Y-m-d');
+}
+
+function logueado()
+{
+    return isset($_SESSION['login']);
+}
+
+function boton_logout()
+{ ?>
+    <?php
+}
+
+function cabecera()
+{
+    if (logueado()) { ?>
+        <form style="float: right" action="/usuarios/logout.php" method="post">
+            <?= $_SESSION['login'] ?>
+            <button type="submit">Logout</button>
+        </form>
+        <a href="/">Aplicación de gestión de empleados</a>
+        <hr style="margin-bottom: 1em;"><?php
+    }
+
+    if (isset($_SESSION['error'])) {
+        echo $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
+
+    if (isset($_SESSION['exito'])) {
+        echo $_SESSION['exito'];
+        unset($_SESSION['exito']);
+    }
 }

@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,8 @@
 <body>
     <?php
     require '../auxiliar/auxiliar.php';
+
+    cabecera();
 
     $pdo = conectar();
     $stmt = $pdo->query('SELECT e.*, d.codigo, d.denominacion, d.localidad

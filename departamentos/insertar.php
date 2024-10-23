@@ -10,6 +10,8 @@
     <?php
     require '../auxiliar/auxiliar.php';
 
+    cabecera();
+
     $codigo = obtener_post('codigo');
     $denominacion = obtener_post('denominacion');
     $localidad = obtener_post('localidad');
@@ -36,7 +38,7 @@
                 ':fecha_alta' => $fecha_alta,
             ]);
             $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
-            volver();
+            volver_departamentos();
             return;
         }
     }

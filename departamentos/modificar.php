@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,7 @@
 
     if (!($fila = comprobar_id($id, $pdo))) {
         $_SESSION['error'] = 'Error al recuperar el departamento';
-        volver();
+        volver_departamentos();
         return;
     }
 
@@ -48,7 +49,7 @@
                     ':fecha_alta' => $fecha_alta,
                 ]);
                 $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
-                volver();
+                volver_departamentos();
                 return;
             }
         }
@@ -58,6 +59,8 @@
         $localidad = $fila['localidad'];
         $fecha_alta = $fila['fecha_alta'];
     }
+
+    cabecera();
     ?>
     <form action="" method="post">
         <label>
