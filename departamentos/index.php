@@ -12,15 +12,7 @@
     <?php
     require '../auxiliar/auxiliar.php';
 
-    if (isset($_SESSION['error'])) {
-        echo $_SESSION['error'];
-        unset($_SESSION['error']);
-    }
-
-    if (isset($_SESSION['exito'])) {
-        echo $_SESSION['exito'];
-        unset($_SESSION['exito']);
-    }
+    cabecera();
 
     const CRITERIOS = [
         'AND' => 'Y',

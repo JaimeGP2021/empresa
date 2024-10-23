@@ -28,6 +28,11 @@ function volver()
     header('Location: index.php');
 }
 
+function volver_empleados()
+{
+    header('Location: /empleados/');
+}
+
 function departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
 {
     $pdo = $pdo ?? conectar();
@@ -62,6 +67,12 @@ function departamento_por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): a
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':codigo' => $codigo]);
     return $stmt->fetch();
+}
+
+function usuario_por_username($username, ?PDO $pdo = null)
+{
+    $pdo = $pdo ?? conectar();
+
 }
 
 function departamentos(?PDO $pdo = null)
@@ -256,4 +267,36 @@ function fecha_formulario($fecha, $incluir_hora = false)
         return $fecha->format('Y-m-d H:i:s');
     }
     return $fecha->format('Y-m-d');
+}
+
+function logeado()
+{
+    return isset($_SESSION['login']);
+}
+
+function boton_logout()
+{ ?>
+    <form style="display:inline" action="/usuarios/logout.php" method="post">
+        <button type="submit">Logout</button>
+    </form><?php
+}
+
+function cabecera()
+{
+    if (logeado()) { ?>
+        form
+        $_SESSION['login'];
+        boton_logout(); ?>
+        <hr><?php
+    }
+
+    if (isset($_SESSION['error'])) {
+        echo $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
+
+    if (isset($_SESSION['exito'])) {
+        echo $_SESSION['exito'];
+        unset($_SESSION['exito']);
+    }
 }

@@ -1,12 +1,19 @@
 DROP TABLE IF EXISTS departamentos CASCADE;
 DROP TABLE IF EXISTS empleados CASCADE;
+DROP TABLE IF EXISTS usuarios CASCADE;
+
+CREATE TABLE usuarios (
+    id                  BIGSERIAL       PRIMARY KEY,
+    username            VARCHAR(255)    NOT NULL UNIQUE,
+    password            VARCHAR(255)    NOT NULL
+);
 
 CREATE TABLE departamentos (
-    id              BIGSERIAL    PRIMARY KEY,
-    codigo          VARCHAR(2)   NOT NULL UNIQUE,
-    denominacion    VARCHAR(255) NOT NULL,
-    localidad       VARCHAR(255),
-    fecha_alta      TIMESTAMP(0)       NOT NULL DEFAULT LOCALTIMESTAMP
+    id                  BIGSERIAL       PRIMARY KEY,
+    codigo              VARCHAR(2)      NOT NULL UNIQUE,
+    denominacion        VARCHAR(255)    NOT NULL,
+    localidad           VARCHAR(255),
+    fecha_alta          TIMESTAMP(0)    NOT NULL DEFAULT LOCALTIMESTAMP
 );
 
 CREATE TABLE empleados (
@@ -17,8 +24,11 @@ CREATE TABLE empleados (
     departamento_id     BIGINT          REFERENCES departamentos(id)
 );
 
-
 -----------
+
+INSERT INTO usuarios (username, password)
+VALUES ('admin', crypt('admin', gen_salt('bf', 10))),
+       ('usuario', crypt('usuario', gen_salt('bf', 10)));
 
 INSERT INTO departamentos (codigo, denominacion, localidad)
 VALUES ('10', 'Informática', 'Sanlúcar'),
