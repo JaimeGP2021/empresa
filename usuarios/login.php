@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <?php
+<?php
     require '../auxiliar/auxiliar.php';
 
     $username = obtener_post('username');
@@ -28,10 +28,19 @@
     }
 
     cabecera();
-
     ?>
     <form action="" method="post">
-
+        <label>
+            Usuario:
+            <input type="text" name="username">
+        </label>
+        <br>
+        <label>
+            Contraseña:
+            <input type="password" name="password">
+        </label>
+        <br>
+        <button type="submit">Login</button>
     </form>
 </body>
 

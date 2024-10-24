@@ -15,9 +15,11 @@
     $id = obtener_get('id');
 
     if (!isset($id)) {
-        volver_departamento();
+        volver_departamentos();
         return;
     }
+
+    cabecera();
     ?>
     <form action="hacer_borrado.php" method="post">
         <input type="hidden" name="id" value="<?= $id ?>">

@@ -33,7 +33,7 @@ function volver_empleados()
     header('Location: /empleados/');
 }
 
-function volver_departamento()
+function volver_departamentos()
 {
     header('Location: /departamentos/');
 }
@@ -274,25 +274,30 @@ function fecha_formulario($fecha, $incluir_hora = false)
     return $fecha->format('Y-m-d');
 }
 
-function logeado()
+function logueado()
 {
     return isset($_SESSION['login']);
 }
 
+function es_admin()
+{
+    return logueado() && $_SESSION['login'] == 'admin';
+}
+
 function boton_logout()
 { ?>
-    <form style="display:inline" action="/usuarios/logout.php" method="post">
-        <button type="submit">Logout</button>
-    </form><?php
+    <?php
 }
 
 function cabecera()
 {
-    if (logeado()) { ?>
-        form
-        $_SESSION['login'];
-        boton_logout(); ?>
-        <hr><?php
+    if (logueado()) { ?>
+        <form style="float: right" action="/usuarios/logout.php" method="post">
+            <?= $_SESSION['login'] ?>
+            <button type="submit">Logout</button>
+        </form>
+        <a href="/">Aplicación de gestión de empleados</a>
+        <hr style="margin-bottom: 1em;"><?php
     }
 
     if (isset($_SESSION['error'])) {

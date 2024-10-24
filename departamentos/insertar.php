@@ -12,6 +12,14 @@
     <?php
     require '../auxiliar/auxiliar.php';
 
+    if (!es_admin()) {
+        $_SESSION['error'] = 'No tiene permisos suficientes.';
+        volver_departamentos();
+        return;
+    }
+    
+    cabecera();
+
     $codigo = obtener_post('codigo');
     $denominacion = obtener_post('denominacion');
     $localidad = obtener_post('localidad');
@@ -24,7 +32,6 @@
         comprobar_denominacion($denominacion, $errores, $pdo);
         comprobar_localidad($localidad, $errores);
         comprobar_fecha_alta($fecha_alta, $errores);
-
 
         if (!empty($errores)) {
             mostrar_errores($errores);
@@ -39,7 +46,7 @@
                 ':fecha_alta' => $fecha_alta,
             ]);
             $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
-            volver_departamento();
+            volver_departamentos();
             return;
         }
     }
@@ -62,7 +69,7 @@
         </label>
         <br>
         <button type="submit">Insertar</button>
-        <a href="index.php">volver_departamento</a>
+        <a href="index.php">Cancelar</a>
     </form>
 </body>
 

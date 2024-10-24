@@ -1,13 +1,11 @@
-DROP TABLE IF EXISTS departamentos CASCADE;
-DROP TABLE IF EXISTS empleados CASCADE;
 DROP TABLE IF EXISTS usuarios CASCADE;
-
 CREATE TABLE usuarios (
     id                  BIGSERIAL       PRIMARY KEY,
     username            VARCHAR(255)    NOT NULL UNIQUE,
     password            VARCHAR(255)    NOT NULL
 );
 
+DROP TABLE IF EXISTS departamentos CASCADE;
 CREATE TABLE departamentos (
     id                  BIGSERIAL       PRIMARY KEY,
     codigo              VARCHAR(2)      NOT NULL UNIQUE,
@@ -16,6 +14,7 @@ CREATE TABLE departamentos (
     fecha_alta          TIMESTAMP(0)    NOT NULL DEFAULT LOCALTIMESTAMP
 );
 
+DROP TABLE IF EXISTS empleados CASCADE;
 CREATE TABLE empleados (
     id                  BIGSERIAL       PRIMARY KEY,
     numero              VARCHAR(255)    NOT NULL UNIQUE,

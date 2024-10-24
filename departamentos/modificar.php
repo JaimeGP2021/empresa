@@ -17,7 +17,7 @@
 
     if (!($fila = comprobar_id($id, $pdo))) {
         $_SESSION['error'] = 'Error al recuperar el departamento';
-        volver_departamento();
+        volver_departamentos();
         return;
     }
 
@@ -30,7 +30,7 @@
         if (isset($codigo, $denominacion, $localidad, $fecha_alta)) {
             $errores = [];
             comprobar_codigo($codigo, $errores, $pdo, $id);
-            comprobar_denominacion($denominacion, $errores, $pdo);
+            comprobar_denominacion($denominacion, $errores);
             comprobar_localidad($localidad, $errores);
             comprobar_fecha_alta($fecha_alta, $errores);
 
@@ -52,7 +52,7 @@
                     ':fecha_alta' => $fecha_alta,
                 ]);
                 $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
-                volver_departamento();
+                volver_departamentos();
                 return;
             }
         }
@@ -62,6 +62,8 @@
         $localidad = $fila['localidad'];
         $fecha_alta = $fila['fecha_alta'];
     }
+
+    cabecera();
     ?>
     <form action="" method="post">
         <label for="codigo">Código:

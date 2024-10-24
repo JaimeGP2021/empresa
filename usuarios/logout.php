@@ -1,8 +1,10 @@
 <?php
 
+require '../auxiliar/auxiliar.php';
+
 session_start();
 $_SESSION = [];
-$param = session_get_cookie_params();
+$params = session_get_cookie_params();
 setcookie(
     session_name(),
     '',
@@ -10,7 +12,7 @@ setcookie(
     $params['path'],
     $params['domain'],
     $params['secure'],
-    $params['httponly'],
+    $params['httponly']
 );
 session_destroy();
 volver();

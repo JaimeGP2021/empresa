@@ -11,6 +11,7 @@
 <body>
 <?php
     require '../auxiliar/auxiliar.php';
+
     $numero = obtener_post('numero');
     $nombre = obtener_post('nombre');
     $apellidos = obtener_post('apellidos');
@@ -19,7 +20,7 @@
     if (isset($numero, $nombre, $apellidos, $departamento_id)) {
         $errores = [];
         comprobar_numero($numero, $errores, $pdo);
-        comprobar_nombre($nombre, $errores, $pdo);
+        comprobar_nombre($nombre, $errores);
         comprobar_apellidos($apellidos, $errores);
         comprobar_departamento_id($departamento_id, $errores, $pdo);
         if (!empty($errores)) {
@@ -39,6 +40,8 @@
             return;
         }
     }
+
+    cabecera();
     ?>
     <form action="" method="post">
         <label>
