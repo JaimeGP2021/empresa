@@ -30,13 +30,13 @@
         <tbody>
             <?php foreach ($stmt as $fila): ?>
                 <tr>
-                    <td><?= $fila['numero'] ?></td>
-                    <td><?= $fila['nombre'] ?></td>
-                    <td><?= $fila['apellidos'] ?></td>
-                    <td><?= $fila['codigo'] ?></td>
-                    <td><?= $fila['denominacion'] ?></td>
-                    <td><a href="modificar_empleado.php?id=<?= $fila['id'] ?>">Editar</a></td>
-                    <td><a href="borrar_empleado.php?id=<?= $fila['id'] ?>">Borrar</a></td>
+                    <td><?= hh($fila['numero']) ?></td>
+                    <td><?= hh($fila['nombre']) ?></td>
+                    <td><?= hh($fila['apellidos']) ?></td>
+                    <td><?= hh($fila['codigo']) ?></td>
+                    <td><?= hh($fila['denominacion']) ?></td>
+                    <td><a href="modificar_empleado.php?id=<?= hh($fila['id']) ?>">Editar</a></td>
+                    <td><a href="borrar_empleado.php?id=<?= hh($fila['id']) ?>">Borrar</a></td>
                 </tr>
             <?php endforeach ?>
         </tbody>

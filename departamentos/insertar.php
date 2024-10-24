@@ -24,9 +24,15 @@
     $denominacion = obtener_post('denominacion');
     $localidad = obtener_post('localidad');
     $fecha_alta = obtener_post('fecha_alta');
+    $_csrf = obtener_post('_csrf');
     $pdo = conectar();
 
     if (isset($codigo, $denominacion, $localidad, $fecha_alta)) {
+        if (!isset($_SESSION['_csrf']) || $_SESSION['_csrf'] != $_csrf) {
+            $_SESSION['error'] = 'Petición incorecta';
+            volver_departamentos();
+            return;
+        }
         $errores = [];
         comprobar_codigo($codigo, $errores, $pdo);
         comprobar_denominacion($denominacion, $errores, $pdo);
@@ -50,8 +56,13 @@
             return;
         }
     }
+
+    if (!isset($_SESSION['_csrf'])) {
+        $_SESSION['csrf'] = bin2hex((random_bytes(32)));
+    }
     ?>
     <form action="" method="post">
+        <input type="hidden" name = "_csrf" value="<?= $_SESSION['_csrf']?>">
         <label for="codigo">Código:
             <input type="text" name="codigo" id="codigo" value="<?= hh($codigo)?>">
         </label>

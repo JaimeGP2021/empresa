@@ -13,6 +13,7 @@
     require '../auxiliar/auxiliar.php';
 
     $id = obtener_get('id');
+    $_csrf = obtener_post('_csrf');
     $pdo = conectar();
 
     if (!($fila = comprobar_id($id, $pdo))) {
@@ -28,6 +29,11 @@
         $fecha_alta = obtener_post('fecha_alta');
 
         if (isset($codigo, $denominacion, $localidad, $fecha_alta)) {
+            if (!isset($_SESSION['_csrf']) || $_SESSION['_csrf'] != $_csrf) {
+                $_SESSION['error'] = 'Petición incorecta';
+                volver_departamentos();
+                return;
+            }
             $errores = [];
             comprobar_codigo($codigo, $errores, $pdo, $id);
             comprobar_denominacion($denominacion, $errores);
@@ -63,9 +69,13 @@
         $fecha_alta = $fila['fecha_alta'];
     }
 
+    if (!isset($_SESSION['_csrf'])) {
+        $_SESSION['csrf'] = bin2hex((random_bytes(32)));
+    }
     cabecera();
     ?>
     <form action="" method="post">
+        <input type="hidden" name="_csrf" value="<?= $_SESSION['_csrf'] ?>">
         <label for="codigo">Código:
             <input type="text" name="codigo" id="codigo" value="<?= hh($codigo) ?>">
         </label>

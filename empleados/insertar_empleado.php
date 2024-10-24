@@ -46,25 +46,25 @@
     <form action="" method="post">
         <label>
             Número:
-            <input type="text" name="numero" value="<?= $numero ?>">
+            <input type="text" name="numero" value="<?= hh($numero) ?>">
         </label>
         <br>
         <label>
             Nombre:
-            <input type="text" name="nombre" value="<?= $nombre ?>">
+            <input type="text" name="nombre" value="<?= hh($nombre) ?>">
         </label>
         <br>
         <label>
             Apellidos:
-            <input type="text" name="apellidos" value="<?= $apellidos ?>">
+            <input type="text" name="apellidos" value="<?= hh($apellidos) ?>">
         </label>
         <br>
         <label>
             Departamento:
             <select name="departamento_id">
-                <option value="">(Ninguno)</option>
+                <option value=<?=hh("")?>>(Ninguno)</option>
                 <?php foreach (departamentos() as $dep): ?>
-                    <option value="<?= $dep['id'] ?>">
+                    <option value="<?= hh($dep['id']) ?>">
                         <?= "({$dep['codigo']}) {$dep['denominacion']}" ?>
                     </option>
                 <?php endforeach ?>
