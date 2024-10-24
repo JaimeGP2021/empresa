@@ -50,10 +50,10 @@
     ?>
     <form action="" method="get">
         <label>Código:
-            <input type="text" name="codigo" value="<?= $codigo ?>" size="3">
+            <input type="text" name="codigo" value="<?= hh($codigo) ?>" size="3">
         </label>
         <label>Denominación:
-            <input type="text" name="denominacion" value="<?= $denominacion ?>">
+            <input type="text" name="denominacion" value="<?= hh($denominacion) ?>">
         </label>
         <label>Criterio:
             <select name="criterio">
@@ -79,12 +79,12 @@
         <tbody>
             <?php foreach ($stmt as $fila): ?>
                 <tr>
-                    <td><?= $fila['codigo'] ?></td>
-                    <td><?= $fila['denominacion'] ?></td>
-                    <td><?= $fila['localidad'] ?></td>
-                    <td><?= fecha_formateada($fila['fecha_alta']) ?></td>
-                    <td><a href="modificar.php?id=<?= $fila['id'] ?>">Modificar</a></td>
-                    <td><a href="borrar.php?id=<?= $fila['id'] ?>">Borrar</a></td>
+                    <td><?= hh($fila['codigo']) ?></td>
+                    <td><?= hh($fila['denominacion']) ?></td>
+                    <td><?= hh($fila['localidad']) ?></td>
+                    <td><?= hh(fecha_formateada($fila['fecha_alta'])) ?></td>
+                    <td><a href="modificar.php?id=<?= hh($fila['id']) ?>">Modificar</a></td>
+                    <td><a href="borrar.php?id=<?= hh($fila['id']) ?>">Borrar</a></td>
                 </tr>
             <?php endforeach ?>
         </tbody>

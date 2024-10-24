@@ -52,22 +52,22 @@
     <form action="" method="post">
         <label>
             Código:
-            <input type="text" name="codigo" value="<?= $codigo ?>">
+            <input type="text" name="codigo" value="<?= hh($codigo) ?>">
         </label>
         <br>
         <label>
             Denominación:
-            <input type="text" name="denominacion" value="<?= $denominacion ?>">
+            <input type="text" name="denominacion" value="<?= hh($denominacion) ?>">
         </label>
         <br>
         <label>
             Localidad:
-            <input type="text" name="localidad" value="<?= $localidad ?>">
+            <input type="text" name="localidad" value="<?= hh($localidad) ?>">
         </label>
         <br>
         <label>
             Fecha de alta:
-            <input type="datetime-local" name="fecha_alta" value="<?= fecha_formulario($fecha_alta, true) ?>">
+            <input type="datetime-local" name="fecha_alta" value="<?= hh(fecha_formulario($fecha_alta, true)) ?>">
         </label>
         <br>
         <button type="submit">Insertar</button>
