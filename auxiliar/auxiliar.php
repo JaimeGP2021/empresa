@@ -25,7 +25,7 @@ function selected($criterio, $valor)
 
 function volver()
 {
-    header('Location: /index.php');
+    header('Location: /');
 }
 
 function volver_empleados()
@@ -77,7 +77,11 @@ function departamento_por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): a
 function usuario_por_username($username, ?PDO $pdo = null)
 {
     $pdo = $pdo ?? conectar();
-
+    $stmt = $pdo->prepare('SELECT *
+                             FROM usuarios
+                            WHERE username = :username');
+    $stmt->execute([':username' => $username]);
+    return $stmt->fetch();
 }
 
 function departamentos(?PDO $pdo = null)
