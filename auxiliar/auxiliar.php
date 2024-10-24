@@ -314,3 +314,8 @@ function cabecera()
         unset($_SESSION['exito']);
     }
 }
+
+function hh($cadena)
+{
+    return htmlspecialchars($cadena ?? '', ENT_QUOTES | ENT_SUBSTITUTE);
+}

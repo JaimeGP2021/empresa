@@ -67,19 +67,19 @@
     ?>
     <form action="" method="post">
         <label for="codigo">Código:
-            <input type="text" name="codigo" id="codigo" value="<?= $codigo ?>">
+            <input type="text" name="codigo" id="codigo" value="<?= hh($codigo) ?>">
         </label>
         <br>
         <label for="denominacion">Denominación:
-            <input type="text" name="denominacion" id="denominacion" value="<?= $denominacion ?>">
+            <input type="text" name="denominacion" id="denominacion" value="<?= hh($denominacion) ?>">
         </label>
         <br>
         <label for="localidad">Localidad:
-            <input type="text" name="localidad" id="localidad" value="<?= $localidad ?>">
+            <input type="text" name="localidad" id="localidad" value="<?= hh($localidad) ?>">
         </label>
         <br>
         <label for="fecha_alta">Fecha de alta:
-            <input type="datetime-local" name="fecha_alta" id="fecha_alta" value="<?= fecha_formulario($fecha_alta, true) ?>">
+            <input type="datetime-local" name="fecha_alta" id="fecha_alta" value="<?= hh(fecha_formulario($fecha_alta, true)) ?>">
         </label>
         <br>
         <button type="submit">Modificar</button>
