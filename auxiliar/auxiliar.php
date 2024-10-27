@@ -297,7 +297,7 @@ function cabecera()
 {
     if (logueado()) { ?>
         <form style="float: right" action="/usuarios/logout.php" method="post">
-            <?= $_SESSION['login'] ?>
+            <?= hh($_SESSION['login']) ?>
             <button type="submit">Logout</button>
         </form>
         <a href="/">Aplicación de gestión de empleados</a>
