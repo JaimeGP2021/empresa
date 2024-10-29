@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/output.css">
     <title>Modificar un departamento</title>
 </head>
 
@@ -95,6 +96,7 @@
         <button type="submit">Modificar</button>
         <a href="index.php">Cancelar</a>
     </form>
+    <script src="/js/flowbite/flowbite.js"></script>
 </body>
 
 </html>

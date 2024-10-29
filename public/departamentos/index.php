@@ -97,7 +97,7 @@
                         <td class="px-6 py-4"><?= hh($fila['denominacion']) ?></td>
                         <td class="px-6 py-4"><?= hh($fila['localidad']) ?></td>
                         <td class="px-6 py-4"><?= hh(fecha_formateada($fila['fecha_alta'])) ?></td>
-                        <td class="px-6 py-4"><a href="modificar.php?id=<?= hh($fila['id']) ?>">Editar</a></td>
+                        <td class="px-6 py-4"><a href="/departamentos/modificar.php?id=<?= hh($fila['id']) ?>">Editar</a></td>
                         <td class="px-6 py-4"><a href="borrar.php?id=<?= hh($fila['id']) ?>">Borrar</a></td>
                     </tr>
                 <?php endforeach ?>
