@@ -1,6 +1,6 @@
 <?php
 
-require '../auxiliar/auxiliar.php';
+require '../../src/auxiliar.php';
 
 session_start();
 $_SESSION = [];

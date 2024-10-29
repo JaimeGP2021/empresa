@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-    require 'auxiliar.php';
+    require '../../src/auxiliar.php';
 
     $id = obtener_get('id');
 

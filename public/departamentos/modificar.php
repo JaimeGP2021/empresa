@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-    require '../auxiliar/auxiliar.php';
+    require '../../src/auxiliar.php';
 
     $id = obtener_get('id');
     $pdo = conectar();

@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-    require '../auxiliar/auxiliar.php';
+    require '../../src/auxiliar.php';
 
     $numero = obtener_post('numero');
     $nombre = obtener_post('nombre');

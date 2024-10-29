@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require 'auxiliar.php';
+require '../../src/auxiliar.php';
 
 $id = obtener_post('id');
 if (!isset($id)) {

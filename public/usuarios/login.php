@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-    require '../auxiliar/auxiliar.php';
+    require '../../src/auxiliar.php';
 
     $username = obtener_post('username');
     $password = obtener_post('password');
