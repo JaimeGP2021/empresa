@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/output.css">
     <title>Departamentos</title>
 </head>
 <body>
@@ -68,27 +69,42 @@
         <button type="submit">Buscar</button>
     </form>
     <br>
-    <table border="1">
-        <thead>
-            <th>Código</th>
-            <th>Denominación</th>
-            <th>Localidad</th>
-            <th>Alta</th>
-            <th colspan="2">Acciones</th>
-        </thead>
-        <tbody>
-            <?php foreach ($stmt as $fila): ?>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-12">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <td><?= hh($fila['codigo']) ?></td>
-                    <td><?= hh($fila['denominacion']) ?></td>
-                    <td><?= hh($fila['localidad']) ?></td>
-                    <td><?= hh(fecha_formateada($fila['fecha_alta'])) ?></td>
-                    <td><a href="modificar.php?id=<?= hh($fila['id']) ?>">Modificar</a></td>
-                    <td><a href="borrar.php?id=<?= hh($fila['id']) ?>">Borrar</a></td>
+                    <th scope="col" class="px-6 py-3">
+                        Código
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Denominación
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Localidad
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Alta
+                    </th>
+                    <th scope="col" class="px-6 py-3" colspan="2">
+                        Acciones
+                    </th>
                 </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($stmt as $fila): ?>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><?= hh($fila['codigo']) ?></td>
+                        <td class="px-6 py-4"><?= hh($fila['denominacion']) ?></td>
+                        <td class="px-6 py-4"><?= hh($fila['localidad']) ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?= hh(fecha_formateada($fila['fecha_alta'])) ?></td>
+                        <td class="px-6 py-4"><a href="modificar.php?id=<?= hh($fila['id']) ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modificar</a></td>
+                        <td class="px-6 py-4"><a href="borrar.php?id=<?= hh($fila['id']) ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Borrar</a></td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
     <a href="/departamentos/insertar.php">Insertar un nuevo departamento</a>
+    <script src="/js/flowbite/flowbite.js"></script>
 </body>
 </html>
