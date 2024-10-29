@@ -10,7 +10,7 @@
 
 <body>
     <?php
-    require '../auxiliar/auxiliar.php';
+    require '../../src/auxiliar.php';
 
     $id = obtener_get('id');
     $_csrf = obtener_post('_csrf');

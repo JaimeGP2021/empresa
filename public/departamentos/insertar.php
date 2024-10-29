@@ -10,7 +10,7 @@
 
 <body>
     <?php
-    require '../auxiliar/auxiliar.php';
+    require '../../src/auxiliar.php';
 
     if (!es_admin()) {
         $_SESSION['error'] = 'No tiene permisos suficientes.';

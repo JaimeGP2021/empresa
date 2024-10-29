@@ -10,7 +10,7 @@
 
 <body>
     <?php
-    require '../auxiliar/auxiliar.php';
+    require '../../src/auxiliar.php';
     cabecera();
 
     $id = obtener_get('id');
