@@ -12,6 +12,7 @@
 <body>
     <?php
     require '../../src/auxiliar.php';
+    require '../../src/views/_menu.php';
 
     cabecera();
 

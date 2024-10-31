@@ -13,13 +13,9 @@
     <?php
     require '../src/auxiliar.php';
 
-    cabecera();
+    require '../src/views/_menu.php';
     ?>
-    <ul class="text-green-500">
-        <li><a href="empleados">Empleados</a></li>
-        <li><a href="departamentos">Departamentos</a></li>
-        <li><a href="usuarios/login.php">Login</a></li>
-    </ul>
+    <h1>Benvenuto</h1>
     <script src="/js/flowbite/flowbite.js"></script>
 </body>
 
