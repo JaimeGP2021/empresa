@@ -10,8 +10,7 @@
 <body>
     <?php
     require '../../src/auxiliar.php';
-
-    cabecera();
+    require '../../src/_menu.php';
 
     const CRITERIOS = [
         'AND' => 'Y',

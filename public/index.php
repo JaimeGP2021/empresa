@@ -10,8 +10,7 @@
 <body>
     <?php
     require '../src/auxiliar.php';
-
-    cabecera();
+    require '../src/_menu.php';
     ?>
     <ul>
         <li><a href="empleados">Empleados</a></li>
