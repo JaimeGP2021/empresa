@@ -1,5 +1,7 @@
 <?php
 
+require 'Usuario.php';
+
 function conectar()
 {
     try {
@@ -58,16 +60,6 @@ function departamento_por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): a
     }
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':codigo' => $codigo]);
-    return $stmt->fetch();
-}
-
-function usuario_por_username($username, ?PDO $pdo = null)
-{
-    $pdo = $pdo ?? conectar();
-    $stmt = $pdo->prepare('SELECT *
-                             FROM usuarios
-                            WHERE username = :username');
-    $stmt->execute([':username' => $username]);
     return $stmt->fetch();
 }
 
@@ -211,16 +203,6 @@ function fecha_formulario($fecha, $incluir_hora = false)
     return $fecha->format('Y-m-d');
 }
 
-function logueado()
-{
-    return isset($_SESSION['login']);
-}
-
-function es_admin()
-{
-    return logueado() && $_SESSION['login'] == 'admin';
-}
-
 function boton_logout()
 { ?>
     <?php
@@ -228,9 +210,9 @@ function boton_logout()
 
 function cabecera()
 {
-    if (logueado()) { ?>
+    if (Usuario::esta_logueado()) { ?>
         <form style="float: right" action="/usuarios/logout.php" method="post">
-            <?= $_SESSION['login'] ?>
+            <?= Usuario::logueado()->username ?>
             <button type="submit">Logout</button>
         </form>
         <a href="/">Aplicación de gestión de empleados</a>

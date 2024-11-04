@@ -9,17 +9,17 @@
 <body>
     <?php
     require '../../src/auxiliar.php';
+    require '../../src/Usuario.php';
 
     $username = obtener_post('username');
     $password = obtener_post('password');
 
     if (isset($username, $password)) {
-        $pdo = conectar();
-        $usuario = usuario_por_username($username, $pdo);
-        if ($usuario !== false) {
-            if (password_verify($password, $usuario['password'])) {
-                $_SESSION['login'] = $username;
-                volver_empleados();
+        $usuario = Usuario::por_username($username);
+        if ($usuario !== null) {
+            if ($usuario->comprobar_password($password)) {
+                $_SESSION['login'] = serialize($usuario);
+                volver_departamentos();
             }
         }
         $_SESSION['error'] = 'Fallo de autenticación';
