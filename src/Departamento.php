@@ -1,7 +1,12 @@
 <?php
 
-class Departamento
+require 'Modelo.php';
+
+class Departamento extends Modelo
 {
+    protected static string $tabla = 'departamentos';
+    protected static string $orden_defecto = 'denominacion';
+
     public $id;
     public $codigo;
     public $denominacion;
@@ -20,48 +25,6 @@ class Departamento
         $this->denominacion = $this->_valor($campos, 'denominacion');
         $this->localidad = $this->_valor($campos, 'localidad');
         $this->fecha_alta = $this->_valor($campos, 'fecha_alta');
-    }
-
-    public static function todos(
-        array $where = [],
-        array $execute = [],
-        ?PDO $pdo = null,
-        string $criterio = 'AND',
-        ?string $orden = null,
-    ): array
-    {
-        $pdo = $pdo ?? conectar();
-        $where = !empty($where) ? 'WHERE ' . implode(" $criterio ", $where) : '';
-        $orden = $orden ?? 'denominacion';
-        $execute[':orden'] = $orden;
-
-        $stmt = $pdo->prepare("SELECT *
-                                 FROM departamentos
-                               $where
-                             ORDER BY :orden");
-        $stmt->execute($execute);
-        $res = [];
-        foreach ($stmt as $fila) {
-            $res[] = new static($fila);
-        }
-
-        return $res;
-    }
-
-    public static function por_id($id, ?PDO $pdo = null, $bloqueo = false): ?static
-    {
-        $pdo = $pdo ?? conectar();
-        $sql = 'SELECT * FROM departamentos WHERE id = :id';
-        if ($bloqueo) {
-            $sql .= ' FOR UPDATE';
-        }
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':id' => $id]);
-        $fila = $stmt->fetch();
-        if ($fila !== false) {
-            return new static($fila);
-        }
-        return null;
     }
 
     public static function por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): ?static

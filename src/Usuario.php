@@ -1,7 +1,12 @@
 <?php
 
-class Usuario
+require 'Modelo.php';
+
+class Usuario extends Modelo
 {
+    protected static string $tabla = 'usuarios';
+    protected static string $orden_defecto = 'username';
+
     public $id;
     public $username;
     public $password;
@@ -35,32 +40,6 @@ class Usuario
             return $logueado->username == 'admin';
         }
         return false;
-    }
-
-    public static function todos(
-        array $where = [],
-        array $execute = [],
-        ?PDO $pdo = null,
-        string $criterio = 'AND',
-        ?string $orden = null,
-    ): array
-    {
-        $pdo = $pdo ?? conectar();
-        $where = !empty($where) ? 'WHERE ' . implode(" $criterio ", $where) : '';
-        $orden = $orden ?? 'username';
-        $execute[':orden'] = $orden;
-
-        $stmt = $pdo->prepare("SELECT *
-                                 FROM usuarios
-                               $where
-                             ORDER BY :orden");
-        $stmt->execute($execute);
-        $res = [];
-        foreach ($stmt as $fila) {
-            $res[] = new static($fila);
-        }
-
-        return $res;
     }
 
     public static function por_username($username, ?PDO $pdo = null): ?static
