@@ -10,7 +10,7 @@
     <?php
     require '../../src/auxiliar.php';
 
-    if (!es_admin()) {
+    if (!Usuario::logueado_es_admin()) {
         $_SESSION['error'] = 'No tiene permisos suficientes.';
         volver_departamentos();
         return;
@@ -40,15 +40,10 @@
         if (!empty($errores)) {
             mostrar_errores($errores);
         } else {
-            $stmt = $pdo->prepare('INSERT INTO departamentos
-                               (codigo, denominacion, localidad, fecha_alta)
-                           VALUES (:codigo, :denominacion, :localidad, :fecha_alta)');
-            $stmt->execute([
-                ':codigo' => $codigo,
-                ':denominacion' => $denominacion,
-                ':localidad' => $localidad,
-                ':fecha_alta' => $fecha_alta,
-            ]);
+            $departamento = new Departamento(
+                compact('codigo', 'denominacion', 'localidad', 'fecha_alta')
+            );
+            $departamento->insertar();
             $_SESSION['exito'] = 'El departamento se ha insertado correctamente';
             volver_departamentos();
             return;

@@ -1,6 +1,7 @@
 <?php
 
 require 'Usuario.php';
+require 'Departamento.php';
 
 function conectar()
 {
@@ -39,37 +40,6 @@ function volver_departamentos()
     header('Location: /departamentos/');
 }
 
-function departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
-{
-    $pdo = $pdo ?? conectar();
-    $sql = 'SELECT * FROM departamentos WHERE id = :id';
-    if ($bloqueo) {
-        $sql .= ' FOR UPDATE';
-    }
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':id' => $id]);
-    return $stmt->fetch();
-}
-
-function departamento_por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): array|false
-{
-    $pdo = $pdo ?? conectar();
-    $sql = 'SELECT * FROM departamentos WHERE codigo = :codigo';
-    if ($bloqueo) {
-        $sql .= ' FOR UPDATE';
-    }
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':codigo' => $codigo]);
-    return $stmt->fetch();
-}
-
-function departamentos(?PDO $pdo = null)
-{
-    $pdo = $pdo ?? conectar();
-    $stmt = $pdo->query('SELECT * FROM departamentos ORDER BY codigo');
-    return $stmt->fetchAll();
-}
-
 function anyadir_error($par, $mensaje, &$errores)
 {
     if (!isset($errores[$par])) {
@@ -86,9 +56,9 @@ function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
     } elseif (mb_strlen($codigo) > 2) {
         anyadir_error('codigo', 'El código es demasiado largo', $errores);
     } else {
-        $departamento = departamento_por_codigo($codigo, $pdo);
-        if ($departamento !== false &&
-            ($id === null || $departamento['id'] != $id)) {
+        $departamento = Departamento::por_codigo($codigo, $pdo);
+        if ($departamento !== null &&
+            ($id === null || $departamento->id != $id)) {
             anyadir_error('codigo', 'Ese departamento ya existe', $errores);
         }
     }
@@ -169,7 +139,7 @@ function comprobar_departamento_id(&$departamento_id, &$errores, ?PDO $pdo = nul
         $departamento_id = null;
     } elseif (!ctype_digit($departamento_id)) {
         anyadir_error('departamento_id', 'El departamento no es válido', $errores);
-    } elseif (departamento_por_id($departamento_id, $pdo) === false) {
+    } elseif (Departamento::por_id($departamento_id, $pdo) === false) {
         anyadir_error('departamento_id', 'El departamento no existe', $errores);
     }
 }

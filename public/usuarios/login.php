@@ -9,7 +9,6 @@
 <body>
     <?php
     require '../../src/auxiliar.php';
-    require '../../src/Usuario.php';
 
     $username = obtener_post('username');
     $password = obtener_post('password');

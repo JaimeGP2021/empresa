@@ -56,7 +56,7 @@ class Usuario
                              ORDER BY :orden");
         $stmt->execute($execute);
         $res = [];
-        foreach ($stmt->fetchAll() as $fila) {
+        foreach ($stmt as $fila) {
             $res[] = new static($fila);
         }
 
