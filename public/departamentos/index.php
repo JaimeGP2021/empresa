@@ -12,9 +12,7 @@
 <body>
     <?php
     require '../../src/auxiliar.php';
-    require '../../src/views/_menu.php';
-
-    cabecera();
+    require '../../src/_menu.php';
 
     const CRITERIOS = [
         'AND' => 'Y',
@@ -31,7 +29,7 @@
 
     if ($codigo !== null && $codigo != '') {
         $where[] = "codigo = :codigo";
-        $execute[':codigo'] = "$codigo";
+        $execute[':codigo'] = $codigo;
     }
 
     if ($denominacion !== null && $denominacion != '') {
@@ -43,70 +41,73 @@
         $separador = $criterio == 'OR' ? 'OR' : 'AND';
         $where = 'WHERE ' . implode(" $separador ", $where);
     } else {
-        $where = ' ';
+        $where = '';
     }
 
-    $stmt = $pdo->prepare("     SELECT *
-                                FROM departamentos
-                                $where
-                                ORDER BY codigo");
+    $stmt = $pdo->prepare("SELECT *
+                             FROM departamentos
+                           $where
+                         ORDER BY codigo");
     $stmt->execute($execute);
     ?>
-    <form action="" method="get">
-        <label for="codigo">Código:
-            <input type="text" name="codigo" value="<?= hh($codigo) ?>" size="3">
-        </label>
-        <label for="denominacion">Denominación:
-            <input type="text" name="denominacion" value="<?= hh($denominacion) ?>">
-        </label>
-        <label for="criterio">Denominación:
-            <select name="criterio" id="criterio">
-                <?php foreach (CRITERIOS as $value => $texto): ?>
-                    <option value="<?= $value ?>" <?= selected($criterio, $value) ?>>
-                        <?= $texto ?>
-                    </option>
-                <?php endforeach ?>
-            </select>
-        </label>
-        <button type="submit">Buscar</button>
-    </form>
-    <br>
+    <div class="container flex flex-wrap items-center justify-between mx-auto">
+        <form action="" method="get">
+            <label>Código:
+                <input type="text" name="codigo" value="<?= hh($codigo) ?>" size="3">
+            </label>
+            <label>Denominación:
+                <input type="text" name="denominacion" value="<?= hh($denominacion) ?>">
+            </label>
+            <label>Criterio:
+                <select name="criterio">
+                    <?php foreach (CRITERIOS as $value => $texto): ?>
+                        <option value="<?= $value ?>" <?= selected($criterio, $value) ?>>
+                            <?= $texto ?>
+                        </option>
+                    <?php endforeach ?>
+                </select>
+            </label>
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-36">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <th scope="col" class="px-6 py-3">
-                    Código
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Denominación
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Localidad
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Alta
-                </th>
-                <th scope="col" colspan="2" class="px-6 py-3 text-align">
-                    Acciones
-                </th>
-            </tr>
-            <tbody>
-                <?php foreach ($stmt as $fila): ?>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td class="px-6 py-4"><?= hh($fila['codigo']) ?></td>
-                        <td class="px-6 py-4"><?= hh($fila['denominacion']) ?></td>
-                        <td class="px-6 py-4"><?= hh($fila['localidad']) ?></td>
-                        <td class="px-6 py-4"><?= hh(fecha_formateada($fila['fecha_alta'])) ?></td>
-                        <td class="px-6 py-4"><a href="/departamentos/modificar.php?id=<?= hh($fila['id']) ?>">Editar</a></td>
-                        <td class="px-6 py-4"><a href="borrar.php?id=<?= hh($fila['id']) ?>">Borrar</a></td>
+            <button type="submit">Buscar</button>
+        </form>
+        <br>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-12">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Código
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Denominación
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Localidad
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Alta
+                        </th>
+                        <th scope="col" class="px-6 py-3" colspan="2">
+                            Acciones
+                        </th>
                     </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($stmt as $fila): ?>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><?= hh($fila['codigo']) ?></td>
+                            <td class="px-6 py-4"><?= hh($fila['denominacion']) ?></td>
+                            <td class="px-6 py-4"><?= hh($fila['localidad']) ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?= hh(fecha_formateada($fila['fecha_alta'])) ?></td>
+                            <td class="px-6 py-4"><a href="modificar.php?id=<?= hh($fila['id']) ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modificar</a></td>
+                            <td class="px-6 py-4"><a href="borrar.php?id=<?= hh($fila['id']) ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Borrar</a></td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+        <a href="/departamentos/insertar.php">Insertar un nuevo departamento</a>
     </div>
-
-    <a href="/departamentos/insertar.php">Insertar un nuevo departamento</a>
     <script src="/js/flowbite/flowbite.js"></script>
 </body>
 

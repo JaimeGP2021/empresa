@@ -12,9 +12,13 @@
 <body>
     <?php
     require '../src/auxiliar.php';
-    require '../src/views/_menu.php';
+    require '../src/_menu.php';
     ?>
-    <h1>Benvenuto</h1>
+    <ul>
+        <li><a href="empleados">Empleados</a></li>
+        <li><a href="departamentos">Departamentos</a></li>
+        <li><a href="usuarios/login.php">Login</a></li>
+    </ul>
     <script src="/js/flowbite/flowbite.js"></script>
 </body>
 

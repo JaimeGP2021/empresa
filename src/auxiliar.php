@@ -1,4 +1,7 @@
 <?php
+
+require 'Usuario.php';
+
 function conectar()
 {
     try {
@@ -8,13 +11,11 @@ function conectar()
     }
 }
 
-function obtener_get($par)
-{
+function obtener_get($par) {
     return isset($_GET[$par]) ? trim($_GET[$par]) : null;
 }
 
-function obtener_post($par)
-{
+function obtener_post($par) {
     return isset($_POST[$par]) ? trim($_POST[$par]) : null;
 }
 
@@ -50,18 +51,6 @@ function departamento_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|fal
     return $stmt->fetch();
 }
 
-function empleado_por_id($id, ?PDO $pdo = null, $bloqueo = false): array|false
-{
-    $pdo = $pdo ?? conectar();
-    $sql = 'SELECT * FROM empleados WHERE id = :id';
-    if ($bloqueo) {
-        $sql .= ' FOR UPDATE';
-    }
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':id' => $id]);
-    return $stmt->fetch();
-}
-
 function departamento_por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): array|false
 {
     $pdo = $pdo ?? conectar();
@@ -71,16 +60,6 @@ function departamento_por_codigo($codigo, ?PDO $pdo = null, $bloqueo = false): a
     }
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':codigo' => $codigo]);
-    return $stmt->fetch();
-}
-
-function usuario_por_username($username, ?PDO $pdo = null)
-{
-    $pdo = $pdo ?? conectar();
-    $stmt = $pdo->prepare('SELECT *
-                             FROM usuarios
-                            WHERE username = :username');
-    $stmt->execute([':username' => $username]);
     return $stmt->fetch();
 }
 
@@ -99,8 +78,6 @@ function anyadir_error($par, $mensaje, &$errores)
     $errores[$par][] = $mensaje;
 }
 
-// Comienzan comprobaciones de departamentos
-
 function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
 {
     $pdo = $pdo ?? conectar();
@@ -110,7 +87,7 @@ function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
         anyadir_error('codigo', 'El código es demasiado largo', $errores);
     } else {
         $departamento = departamento_por_codigo($codigo, $pdo);
-        if ($departamento !== false && 
+        if ($departamento !== false &&
             ($id === null || $departamento['id'] != $id)) {
             anyadir_error('codigo', 'Ese departamento ya existe', $errores);
         }
@@ -119,19 +96,19 @@ function comprobar_codigo($codigo, &$errores, ?PDO $pdo = null, $id = null)
 
 function comprobar_denominacion($denominacion, &$errores)
 {
-    if ($denominacion === '') {
+    if ($denominacion == '') {
         anyadir_error('denominacion', 'La denominación no puede estar vacía', $errores);
     } elseif (mb_strlen($denominacion) > 255) {
         anyadir_error('denominacion', 'La denominación es demasiado larga', $errores);
     }
 }
 
-function comprobar_localidad($localidad, &$errores)
+function comprobar_localidad(&$localidad, &$errores)
 {
-    if ($localidad === '') {
+    if ($localidad == '') {
         $localidad = null;
     } elseif (mb_strlen($localidad) > 255) {
-        anyadir_error('localidad', 'La denominación es demasiado larga', $errores);
+        anyadir_error('localidad', 'La localidad es demasiado larga', $errores);
     }
 }
 
@@ -178,63 +155,11 @@ function comprobar_id($id, ?PDO $pdo = null): array|false
     if (!ctype_digit($id)) {
         return false;
     }
-    $stmt = $pdo->prepare(' SELECT * 
-                            FROM departamentos 
+    $stmt = $pdo->prepare('SELECT *
+                             FROM departamentos
                             WHERE id = :id');
     $stmt->execute([':id' => $id]);
     return $stmt->fetch();
-}
-
-// Comienzan comprobaciones empleados
-
-function empleado_por_numero($numero, ?PDO $pdo = null, $bloqueo = false): array|false
-{
-    $pdo = $pdo ?? conectar();
-    $sql = 'SELECT * FROM empleados WHERE numero = :numero';
-    if ($bloqueo) {
-        $sql .= ' FOR UPDATE';
-    }
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':numero' => $numero]);
-    return $stmt->fetch();
-}
-
-function comprobar_numero($numero, &$errores, ?PDO $pdo = null, $id = null)
-{
-    $pdo = $pdo ?? conectar();
-    if ($numero == '') {
-        anyadir_error('numero', 'El número no puede estar vacío', $errores);
-    } elseif (mb_strlen($numero) > 255) {
-        anyadir_error('numero', 'El número es demasiado largo', $errores);
-    } elseif (!ctype_digit($numero)) {
-        anyadir_error('numero', 'El número sólo puede contener carácteres numéricos', $errores);
-    } else {
-        $empleado = empleado_por_numero($numero, $pdo);
-        if ($empleado !== false && 
-            ($id === null || $empleado['id'] != $id)) {
-            anyadir_error('numero', 'Ese empleado ya existe', $errores);
-        }
-    }
-}
-
-function comprobar_nombre($nombre, &$errores)
-{
-    $pdo = $pdo ?? conectar();
-    if ($nombre === '') {
-        anyadir_error('nombre', 'El nombre no puede estar vacío', $errores);
-    } elseif (mb_strlen($nombre) > 255) {
-        anyadir_error('nombre', 'El nombre es demasiado largo', $errores);
-    }
-}
-
-function comprobar_apellidos($apellido, &$errores)
-{
-    $pdo = $pdo ?? conectar();
-    if ($apellido === '') {
-        anyadir_error('apellido', 'El apellido no puede estar vacío', $errores);
-    } elseif (mb_strlen($apellido) > 255) {
-        anyadir_error('apellido', 'El apellido es demasiado largo', $errores);
-    }
 }
 
 function comprobar_departamento_id(&$departamento_id, &$errores, ?PDO $pdo = null)
@@ -253,7 +178,7 @@ function mostrar_errores($errores)
 {
     foreach ($errores as $par => $mensajes) {
         foreach ($mensajes as $mensaje) { ?>
-            <h2><?= $mensaje ?></h2><?php
+            <h2><?= $mensaje ?></h3><?php
         }
     }
 }
@@ -263,9 +188,9 @@ function fecha_formateada($fecha, $incluir_hora = false)
     $fecha = new DateTime($fecha);
     $fecha->setTimezone(new DateTimeZone('Europe/Madrid'));
     if ($incluir_hora) {
-        return $fecha->format('d/m/Y h:m');
+        return $fecha->format('d-m-Y H:i:s');
     }
-    return $fecha->format('d/m/Y');
+    return $fecha->format('d-m-Y');
 }
 
 function fecha_formulario($fecha, $incluir_hora = false)
@@ -278,16 +203,6 @@ function fecha_formulario($fecha, $incluir_hora = false)
     return $fecha->format('Y-m-d');
 }
 
-function logueado()
-{
-    return isset($_SESSION['login']);
-}
-
-function es_admin()
-{
-    return logueado() && $_SESSION['login'] == 'admin';
-}
-
 function boton_logout()
 { ?>
     <?php
@@ -295,9 +210,9 @@ function boton_logout()
 
 function cabecera()
 {
-    if (logueado()) { ?>
+    if (Usuario::esta_logueado()) { ?>
         <form style="float: right" action="/usuarios/logout.php" method="post">
-            <?= hh($_SESSION['login']) ?>
+            <?= Usuario::logueado()->username ?>
             <button type="submit">Logout</button>
         </form>
         <a href="/">Aplicación de gestión de empleados</a>

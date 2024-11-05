@@ -10,7 +10,7 @@
 <body>
     <?php
     require '../../src/auxiliar.php';
-    require '../../src/views/_menu.php';
+    require '../../src/_menu.php';
     
     $pdo = conectar();
     $stmt = $pdo->query('   SELECT e.*, d.codigo, d.denominacion

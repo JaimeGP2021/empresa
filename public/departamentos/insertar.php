@@ -17,7 +17,7 @@
         volver_departamentos();
         return;
     }
-    
+
     cabecera();
 
     $codigo = obtener_post('codigo');
@@ -29,7 +29,7 @@
 
     if (isset($codigo, $denominacion, $localidad, $fecha_alta)) {
         if (!isset($_SESSION['_csrf']) || $_SESSION['_csrf'] != $_csrf) {
-            $_SESSION['error'] = 'Petición incorecta';
+            $_SESSION['error'] = 'Petición incorrecta.';
             volver_departamentos();
             return;
         }
@@ -42,9 +42,9 @@
         if (!empty($errores)) {
             mostrar_errores($errores);
         } else {
-            $stmt = $pdo->prepare(' INSERT INTO departamentos 
-                                    (codigo, denominacion, localidad, fecha_alta)
-                                    VALUES (:codigo, :denominacion, :localidad, :fecha_alta)');
+            $stmt = $pdo->prepare('INSERT INTO departamentos
+                               (codigo, denominacion, localidad, fecha_alta)
+                           VALUES (:codigo, :denominacion, :localidad, :fecha_alta)');
             $stmt->execute([
                 ':codigo' => $codigo,
                 ':denominacion' => $denominacion,
@@ -58,29 +58,33 @@
     }
 
     if (!isset($_SESSION['_csrf'])) {
-        $_SESSION['csrf'] = bin2hex((random_bytes(32)));
+        $_SESSION['_csrf'] = bin2hex(random_bytes(32));
     }
     ?>
     <form action="" method="post">
-        <input type="hidden" name = "_csrf" value="<?= $_SESSION['_csrf']?>">
-        <label for="codigo">Código:
-            <input type="text" name="codigo" id="codigo" value="<?= hh($codigo)?>">
+        <input type="hidden" name="_csrf" value="<?= $_SESSION['_csrf'] ?>">
+        <label>
+            Código:
+            <input type="text" name="codigo" value="<?= hh($codigo) ?>">
         </label>
         <br>
-        <label for="denominacion">Denominación:
-            <input type="text" name="denominacion" id="denominacion" value="<?= hh($denominacion)?>">
+        <label>
+            Denominación:
+            <input type="text" name="denominacion" value="<?= hh($denominacion) ?>">
         </label>
         <br>
-        <label for="localidad">Localidad:
-            <input type="text" name="localidad" id="localidad" value="<?= hh($localidad)?>">
+        <label>
+            Localidad:
+            <input type="text" name="localidad" value="<?= hh($localidad) ?>">
         </label>
         <br>
-        <label for="fecha_alta">Fecha de alta:
-            <input type="datetime-local" name="fecha_alta" id="fecha_alta" value="<?= hh(fecha_formulario($fecha_alta, true))?>">
+        <label>
+            Fecha de alta:
+            <input type="datetime-local" name="fecha_alta" value="<?= hh(fecha_formulario($fecha_alta, true)) ?>">
         </label>
         <br>
         <button type="submit">Insertar</button>
-        <a href="index.php">Cancelar</a>
+        <a href="departamentos.php">Cancelar</a>
     </form>
 </body>
 
