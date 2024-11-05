@@ -2,6 +2,10 @@
 
 require 'Modelo.php';
 
+namespace App\Tablas;
+
+use PDO;
+
 class Departamento extends Modelo
 {
     protected static string $tabla = 'departamentos';
