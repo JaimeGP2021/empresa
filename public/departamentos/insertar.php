@@ -8,7 +8,11 @@
 </head>
 <body>
     <?php
+    require 'vendor/autoload.php';
     require '../../src/auxiliar.php';
+
+    use App\Tablas\Departamento;
+    use App\Tablas\Usuario;
 
     if (!Usuario::logueado_es_admin()) {
         $_SESSION['error'] = 'No tiene permisos suficientes.';
