@@ -1,8 +1,10 @@
 <?php
+
+use App\Tablas\Departamento;
+
 session_start();
 
-require '../../src/auxiliar.php';
-require '../../src/Departamento.php';
+require 'vendor/autoload.php';
 
 $id = obtener_post('id');
 if (!isset($id)) {

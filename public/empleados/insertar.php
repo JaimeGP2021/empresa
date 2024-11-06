@@ -8,7 +8,9 @@
 </head>
 <body>
     <?php
-    require '../../src/auxiliar.php';
+    require 'vendor/autoload.php';
+
+    use App\Tablas\Departamento;
 
     $numero = obtener_post('numero');
     $nombre = obtener_post('nombre');
@@ -21,7 +23,7 @@
         // comprobar_numero($numero, $errores, $pdo);
         // comprobar_nombre($nombre, $errores, $pdo);
         // comprobar_apellidos($apellidos, $errores);
-        comprobar_departamento_id($departamento_id, $errores, $pdo);
+        Departamento::comprobar_departamento_id($departamento_id, $errores, $pdo);
 
         if (!empty($errores)) {
             mostrar_errores($errores);
@@ -40,8 +42,6 @@
             return;
         }
     }
-
-    cabecera();
     ?>
     <form action="" method="post">
         <label>
@@ -63,7 +63,7 @@
             Departamento:
             <select name="departamento_id">
                 <option value="">(Ninguno)</option>
-                <?php foreach (departamentos() as $dep): ?>
+                <?php foreach (Departamento::todos() as $dep): ?>
                     <option value="<?= $dep['id'] ?>">
                         <?= "({$dep['codigo']}) {$dep['denominacion']}" ?>
                     </option>

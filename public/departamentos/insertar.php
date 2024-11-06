@@ -8,15 +8,16 @@
 </head>
 <body>
     <?php
-    require '../../src/auxiliar.php';
+    require 'vendor/autoload.php';
+
+    use App\Tablas\Departamento;
+    use App\Tablas\Usuario;
 
     if (!Usuario::logueado_es_admin()) {
         $_SESSION['error'] = 'No tiene permisos suficientes.';
         volver_departamentos();
         return;
     }
-
-    cabecera();
 
     $codigo = obtener_post('codigo');
     $denominacion = obtener_post('denominacion');
@@ -32,10 +33,10 @@
             return;
         }
         $errores = [];
-        comprobar_codigo($codigo, $errores, $pdo);
-        comprobar_denominacion($denominacion, $errores, $pdo);
-        comprobar_localidad($localidad, $errores);
-        comprobar_fecha_alta($fecha_alta, $errores);
+        Departamento::comprobar_codigo($codigo, $errores, $pdo);
+        Departamento::comprobar_denominacion($denominacion, $errores, $pdo);
+        Departamento::comprobar_localidad($localidad, $errores);
+        Departamento::comprobar_fecha_alta($fecha_alta, $errores);
 
         if (!empty($errores)) {
             mostrar_errores($errores);

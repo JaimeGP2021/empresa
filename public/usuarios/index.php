@@ -9,8 +9,9 @@
 </head>
 <body>
     <?php
-    require '../../src/auxiliar.php';
-    require '../../src/_menu.php';
+    require 'vendor/autoload.php';
+
+    use App\Tablas\Usuario;
 
     const CRITERIOS = [
         'AND' => 'Y',

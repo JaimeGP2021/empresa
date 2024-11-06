@@ -1,6 +1,5 @@
 <?php
-
-require '../../src/auxiliar.php';
+require 'vendor/autoload.php';
 
 session_start();
 $_SESSION = [];

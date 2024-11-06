@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-    require '../../src/auxiliar.php';
+    require 'vendor/autoload.php';
 
     $id = obtener_get('id');
 
@@ -17,7 +17,6 @@
         return;
     }
 
-    cabecera();
     ?>
     <form action="hacer_borrado.php" method="post">
         <input type="hidden" name="id" value="<?= $id ?>">

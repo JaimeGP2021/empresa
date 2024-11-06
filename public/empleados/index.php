@@ -8,9 +8,7 @@
 </head>
 <body>
     <?php
-    require '../../src/auxiliar.php';
-
-    cabecera();
+    require 'vendor/autoload.php';
 
     $pdo = conectar();
     $stmt = $pdo->query('SELECT e.*, d.codigo, d.denominacion, d.localidad

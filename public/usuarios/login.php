@@ -8,7 +8,9 @@
 </head>
 <body>
     <?php
-    require '../../src/auxiliar.php';
+    require 'vendor/autoload.php';
+
+    use App\Tablas\Usuario;
 
     $username = obtener_post('username');
     $password = obtener_post('password');
@@ -23,8 +25,6 @@
         }
         $_SESSION['error'] = 'Fallo de autenticación';
     }
-
-    cabecera();
     ?>
     <form action="" method="post">
         <label>
