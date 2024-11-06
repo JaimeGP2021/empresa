@@ -1,26 +1,29 @@
 DROP TABLE IF EXISTS usuarios CASCADE;
+
 CREATE TABLE usuarios (
-    id                  BIGSERIAL       PRIMARY KEY,
-    username            VARCHAR(255)    NOT NULL UNIQUE,
-    password            VARCHAR(255)    NOT NULL
+    id       BIGSERIAL    PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
 );
 
 DROP TABLE IF EXISTS departamentos CASCADE;
+
 CREATE TABLE departamentos (
-    id                  BIGSERIAL       PRIMARY KEY,
-    codigo              VARCHAR(2)      NOT NULL UNIQUE,
-    denominacion        VARCHAR(255)    NOT NULL,
-    localidad           VARCHAR(255),
-    fecha_alta          TIMESTAMP(0)    NOT NULL DEFAULT LOCALTIMESTAMP
+    id           BIGSERIAL    PRIMARY KEY,
+    codigo       VARCHAR(2)   NOT NULL UNIQUE,
+    denominacion VARCHAR(255) NOT NULL,
+    localidad    VARCHAR(255),
+    fecha_alta   TIMESTAMP(0) NOT NULL DEFAULT LOCALTIMESTAMP
 );
 
 DROP TABLE IF EXISTS empleados CASCADE;
+
 CREATE TABLE empleados (
-    id                  BIGSERIAL       PRIMARY KEY,
-    numero              VARCHAR(255)    NOT NULL UNIQUE,
-    nombre              VARCHAR(255)    NOT NULL,
-    apellidos           VARCHAR(255)    NOT NULL,
-    departamento_id     BIGINT          REFERENCES departamentos(id)
+    id              BIGSERIAL    PRIMARY KEY,
+    numero          VARCHAR(4)   NOT NULL UNIQUE,
+    nombre          VARCHAR(255) NOT NULL,
+    apellidos       VARCHAR(255) NOT NULL,
+    departamento_id BIGINT       REFERENCES departamentos (id)
 );
 
 -----------
@@ -35,10 +38,6 @@ VALUES ('10', 'Informática', 'Sanlúcar'),
        ('30', 'Matemáticas', 'Chipiona');
 
 INSERT INTO empleados (numero, nombre, apellidos, departamento_id)
-VALUES ('1', 'Alfonso', 'Álvarez', 1),
-       ('2', 'Beatriz', 'Barrranco', 1),
-       ('3', 'Carlos', 'Carrasco', 3),
-       ('4', 'David', 'Dominguez', 3),
-       ('5', 'Elena', 'Escobar', 1),
-       ('6', 'Francisco', 'Franco', NULL),
-       ('7', 'Gregorio', 'Gutierrez', 3);
+VALUES ('1000', 'Manolo', 'Pérez', 1),
+       ('2000', 'María', 'Rodríguez', 3),
+       ('3000', 'Rosa', 'González', NULL);

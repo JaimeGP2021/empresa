@@ -1,14 +1,12 @@
 <?php session_start() ?>
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/output.css">
     <title>Departamentos</title>
 </head>
-
 <body>
     <?php
     require '../../src/auxiliar.php';
@@ -22,7 +20,6 @@
     $codigo = obtener_get('codigo');
     $denominacion = obtener_get('denominacion');
     $criterio = obtener_get('criterio');
-    $pdo = conectar();
 
     $where = [];
     $execute = [];
@@ -37,18 +34,7 @@
         $execute[':denominacion'] = "%$denominacion%";
     }
 
-    if (!empty($where)) {
-        $separador = $criterio == 'OR' ? 'OR' : 'AND';
-        $where = 'WHERE ' . implode(" $separador ", $where);
-    } else {
-        $where = '';
-    }
-
-    $stmt = $pdo->prepare("SELECT *
-                             FROM departamentos
-                           $where
-                         ORDER BY codigo");
-    $stmt->execute($execute);
+    $departamentos = Departamento::todos($where, $execute);
     ?>
     <div class="container flex flex-wrap items-center justify-between mx-auto">
         <form action="" method="get">
@@ -61,7 +47,7 @@
             <label>Criterio:
                 <select name="criterio">
                     <?php foreach (CRITERIOS as $value => $texto): ?>
-                        <option value="<?= $value ?>" <?= selected($criterio, $value) ?>>
+                        <option value="<?= $value ?>" <?= selected($criterio, $value) ?> >
                             <?= $texto ?>
                         </option>
                     <?php endforeach ?>
@@ -93,14 +79,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($stmt as $fila): ?>
+                    <?php foreach ($departamentos as $fila): ?>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><?= hh($fila['codigo']) ?></td>
-                            <td class="px-6 py-4"><?= hh($fila['denominacion']) ?></td>
-                            <td class="px-6 py-4"><?= hh($fila['localidad']) ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap"><?= hh(fecha_formateada($fila['fecha_alta'])) ?></td>
-                            <td class="px-6 py-4"><a href="modificar.php?id=<?= hh($fila['id']) ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modificar</a></td>
-                            <td class="px-6 py-4"><a href="borrar.php?id=<?= hh($fila['id']) ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Borrar</a></td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><?= hh($fila->codigo) ?></td>
+                            <td class="px-6 py-4"><?= hh($fila->denominacion) ?></td>
+                            <td class="px-6 py-4"><?= hh($fila->localidad) ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?= hh(fecha_formateada($fila->fecha_alta)) ?></td>
+                            <td class="px-6 py-4"><a href="modificar.php?id=<?= hh($fila->id) ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modificar</a></td>
+                            <td class="px-6 py-4"><a href="borrar.php?id=<?= hh($fila->id) ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Borrar</a></td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>
@@ -110,5 +96,4 @@
     </div>
     <script src="/js/flowbite/flowbite.js"></script>
 </body>
-
 </html>

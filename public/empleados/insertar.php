@@ -1,15 +1,13 @@
 <?php session_start() ?>
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insertar un nuevo empleado</title>
 </head>
-
 <body>
-<?php
+    <?php
     require '../../src/auxiliar.php';
 
     $numero = obtener_post('numero');
@@ -17,12 +15,14 @@
     $apellidos = obtener_post('apellidos');
     $departamento_id = obtener_post('departamento_id');
     $pdo = conectar() or die("No se ha podido establecer una conexión");
+
     if (isset($numero, $nombre, $apellidos, $departamento_id)) {
         $errores = [];
-        comprobar_numero($numero, $errores, $pdo);
-        comprobar_nombre($nombre, $errores);
-        comprobar_apellidos($apellidos, $errores);
+        // comprobar_numero($numero, $errores, $pdo);
+        // comprobar_nombre($nombre, $errores, $pdo);
+        // comprobar_apellidos($apellidos, $errores);
         comprobar_departamento_id($departamento_id, $errores, $pdo);
+
         if (!empty($errores)) {
             mostrar_errores($errores);
         } else {
@@ -46,25 +46,25 @@
     <form action="" method="post">
         <label>
             Número:
-            <input type="text" name="numero" value="<?= hh($numero) ?>">
+            <input type="text" name="numero" value="<?= $numero ?>">
         </label>
         <br>
         <label>
             Nombre:
-            <input type="text" name="nombre" value="<?= hh($nombre) ?>">
+            <input type="text" name="nombre" value="<?= $nombre ?>">
         </label>
         <br>
         <label>
             Apellidos:
-            <input type="text" name="apellidos" value="<?= hh($apellidos) ?>">
+            <input type="text" name="apellidos" value="<?= $apellidos ?>">
         </label>
         <br>
         <label>
             Departamento:
             <select name="departamento_id">
-                <option value=<?=hh("")?>>(Ninguno)</option>
+                <option value="">(Ninguno)</option>
                 <?php foreach (departamentos() as $dep): ?>
-                    <option value="<?= hh($dep['id']) ?>">
+                    <option value="<?= $dep['id'] ?>">
                         <?= "({$dep['codigo']}) {$dep['denominacion']}" ?>
                     </option>
                 <?php endforeach ?>
