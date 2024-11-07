@@ -1,16 +1,18 @@
 <?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/output.css">
     <title>Empleados</title>
 </head>
+
 <body>
     <?php
-    require '../../src/auxiliar.php';
-
-    cabecera();
+    require 'vendor/autoload.php';
+    require '../../src/_menu.php';
 
     $pdo = conectar();
     $stmt = $pdo->query('SELECT e.*, d.codigo, d.denominacion, d.localidad
@@ -38,5 +40,7 @@
             <?php endforeach ?>
         </tbody>
     </table>
+    <script src="/js/flowbite/flowbite.js"></script>
 </body>
+
 </html>

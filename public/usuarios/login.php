@@ -4,11 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/output.css">
     <title>Login</title>
 </head>
 <body>
     <?php
-    require '../../src/auxiliar.php';
+    require 'vendor/autoload';
+    require '../../src/_menu.php';
+
+    use App\Tablas\Usuario;
 
     $username = obtener_post('username');
     $password = obtener_post('password');
@@ -23,8 +27,6 @@
         }
         $_SESSION['error'] = 'Fallo de autenticación';
     }
-
-    cabecera();
     ?>
     <form action="" method="post">
         <label>
@@ -39,5 +41,6 @@
         <br>
         <button type="submit">Login</button>
     </form>
+    <script src="/js/flowbite/flowbite.js"></script>
 </body>
 </html>

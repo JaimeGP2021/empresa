@@ -1,15 +1,18 @@
 <?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/output.css">
     <title>Insertar un nuevo departamento</title>
 </head>
+
 <body>
     <?php
     require 'vendor/autoload.php';
-    require '../../src/auxiliar.php';
+    require '../../src/_menu.php';
 
     use App\Tablas\Departamento;
     use App\Tablas\Usuario;
@@ -19,8 +22,6 @@
         volver_departamentos();
         return;
     }
-
-    cabecera();
 
     $codigo = obtener_post('codigo');
     $denominacion = obtener_post('denominacion');
@@ -36,10 +37,10 @@
             return;
         }
         $errores = [];
-        comprobar_codigo($codigo, $errores, $pdo);
-        comprobar_denominacion($denominacion, $errores, $pdo);
-        comprobar_localidad($localidad, $errores);
-        comprobar_fecha_alta($fecha_alta, $errores);
+        Departamento::comprobar_codigo($codigo, $errores, $pdo);
+        Departamento::comprobar_denominacion($denominacion, $errores, $pdo);
+        Departamento::comprobar_localidad($localidad, $errores);
+        Departamento::comprobar_fecha_alta($fecha_alta, $errores);
 
         if (!empty($errores)) {
             mostrar_errores($errores);
@@ -83,5 +84,7 @@
         <button type="submit">Insertar</button>
         <a href="departamentos.php">Cancelar</a>
     </form>
+    <script src="/js/flowbite/flowbite.js"></script>
 </body>
+
 </html>

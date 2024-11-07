@@ -45,41 +45,6 @@ function anyadir_error($par, $mensaje, &$errores)
     $errores[$par][] = $mensaje;
 }
 
-function comprobar_denominacion($denominacion, &$errores)
-{
-    if ($denominacion == '') {
-        anyadir_error('denominacion', 'La denominación no puede estar vacía', $errores);
-    } elseif (mb_strlen($denominacion) > 255) {
-        anyadir_error('denominacion', 'La denominación es demasiado larga', $errores);
-    }
-}
-
-function comprobar_localidad(&$localidad, &$errores)
-{
-    if ($localidad == '') {
-        $localidad = null;
-    } elseif (mb_strlen($localidad) > 255) {
-        anyadir_error('localidad', 'La localidad es demasiado larga', $errores);
-    }
-}
-
-function comprobar_id($id, ?PDO $pdo = null): array|false
-{
-    $pdo = $pdo ?? conectar();
-    if (!isset($_GET['id'])) {
-        return false;
-    }
-    $id = trim($_GET['id']);
-    if (!ctype_digit($id)) {
-        return false;
-    }
-    $stmt = $pdo->prepare('SELECT *
-                             FROM departamentos
-                            WHERE id = :id');
-    $stmt->execute([':id' => $id]);
-    return $stmt->fetch();
-}
-
 function mostrar_errores($errores)
 {
     foreach ($errores as $par => $mensajes) {
@@ -107,33 +72,6 @@ function fecha_formulario($fecha, $incluir_hora = false)
         return $fecha->format('Y-m-d H:i:s');
     }
     return $fecha->format('Y-m-d');
-}
-
-function boton_logout()
-{ ?>
-    <?php
-}
-
-function cabecera()
-{
-    if (Usuario::esta_logueado()) { ?>
-        <form style="float: right" action="/usuarios/logout.php" method="post">
-            <?= Usuario::logueado()->username ?>
-            <button type="submit">Logout</button>
-        </form>
-        <a href="/">Aplicación de gestión de empleados</a>
-        <hr style="margin-bottom: 1em;"><?php
-    }
-
-    if (isset($_SESSION['error'])) {
-        echo $_SESSION['error'];
-        unset($_SESSION['error']);
-    }
-
-    if (isset($_SESSION['exito'])) {
-        echo $_SESSION['exito'];
-        unset($_SESSION['exito']);
-    }
 }
 
 function hh($cadena)

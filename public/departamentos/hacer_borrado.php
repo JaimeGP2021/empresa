@@ -1,8 +1,8 @@
-<?php
-session_start();
+<?php session_start();
 
-require '../../src/auxiliar.php';
-require '../../src/Departamento.php';
+use App\Tablas\Departamento;
+
+require 'vendor/autoload.php';
 
 $id = obtener_post('id');
 if (!isset($id)) {

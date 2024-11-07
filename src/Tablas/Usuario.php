@@ -1,8 +1,8 @@
 <?php
 
-require 'Modelo.php';
-
 namespace App\Tablas;
+
+require 'Modelo.php';
 
 use PDO;
 

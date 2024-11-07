@@ -9,7 +9,7 @@
 </head>
 <body>
     <?php
-    require '../src/auxiliar.php';
+    require 'vendor/autoload.php';
     require '../src/_menu.php';
     ?>
     <ul>

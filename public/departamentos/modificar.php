@@ -11,12 +11,15 @@
 
 <body>
     <?php
-    require '../../src/auxiliar.php';
+    require 'vendor/autoload.php';
+    require '../../src/_menu.php';
+
+    use App\Tablas\Departamento;
 
     $id = obtener_get('id');
     $pdo = conectar();
 
-    if (!($fila = comprobar_id($id, $pdo))) {
+    if (!($fila = Departamento::comprobar_id($id, $pdo))) {
         $_SESSION['error'] = 'Error al recuperar el departamento';
         volver_departamentos();
         return;
@@ -30,10 +33,10 @@
 
         if (isset($codigo, $denominacion, $localidad, $fecha_alta)) {
             $errores = [];
-            comprobar_codigo($codigo, $errores, $pdo, $id);
-            comprobar_denominacion($denominacion, $errores, $pdo);
-            comprobar_localidad($localidad, $errores);
-            comprobar_fecha_alta($fecha_alta, $errores);
+            Departamento::comprobar_codigo($codigo, $errores, $pdo, $id);
+            Departamento::comprobar_denominacion($denominacion, $errores, $pdo);
+            Departamento::comprobar_localidad($localidad, $errores);
+            Departamento::comprobar_fecha_alta($fecha_alta, $errores);
 
             if (!empty($errores)) {
                 mostrar_errores($errores);
@@ -63,7 +66,6 @@
         $fecha_alta = $fila['fecha_alta'];
     }
 
-    cabecera();
     ?>
     <form action="" class="max-w-sm mx-auto mt-4" method="post">
         <div class="mb-5">
