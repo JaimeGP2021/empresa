@@ -2,8 +2,6 @@
 
 namespace App\Tablas;
 
-require 'Modelo.php';
-
 use PDO;
 
 class Usuario extends Modelo

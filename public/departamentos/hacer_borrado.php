@@ -2,7 +2,7 @@
 
 use App\Tablas\Departamento;
 
-require 'vendor/autoload.php';
+require '../../vendor/autoload.php';
 
 $id = obtener_post('id');
 if (!isset($id)) {

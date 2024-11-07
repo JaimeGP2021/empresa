@@ -2,8 +2,6 @@
 
 namespace App\Tablas;
 
-require 'Modelo.php';
-
 use DateTime;
 use DateTimeZone;
 use PDO;

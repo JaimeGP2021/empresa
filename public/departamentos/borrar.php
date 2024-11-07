@@ -11,7 +11,7 @@
 
 <body>
     <?php
-    require 'vendor/autoload.php';
+    require '../../vendor/autoload.php';
     require '../../src/_menu.php';
 
     $id = obtener_get('id');
