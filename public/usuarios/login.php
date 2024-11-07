@@ -9,7 +9,7 @@
 </head>
 <body>
     <?php
-    require 'vendor/autoload';
+    require '../../vendor/autoload.php';
     require '../../src/_menu.php';
 
     use App\Tablas\Usuario;
